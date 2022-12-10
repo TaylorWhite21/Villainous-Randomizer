@@ -1,0 +1,46 @@
+body {
+  background-color: rgb(17, 172, 3);
+  background-image: url('./images/fire.jpg');
+  background-size: cover;
+  font-family: sans-serif;
+  color: rgb(255, 255, 255);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.character-image {
+  max-width: 300px;
+  margin: 20px auto;
+}
+
+.character-name {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.character-audio {
+  margin-top: 20px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  text-align: center;
+  font-size:3em;
+  text-shadow: 0 0 5px rgb(126, 1, 1);
+}
+
+.button {
+  display: block !important;
+  margin: auto !important;
+  padding: 20px 40px;
+  font-size: 24px;
+}
