@@ -46,147 +46,262 @@ import YzmaAudio from './audio/yzma.mp3';
 import YzmaPNG from './images/yzma.png';
 
 
-const VillanousCharacters = [
-    {
-      name: 'Dr. Facilier',
-      image: DrFacPNG,
-      voiceLine: DrFacAudio
-    },
-    {
-      name: 'Maleficent',
-      image: MalefPNG,
-      voiceLine: MalefAudio
-    },
-    {
-      name: 'Hades',
-      image: HadesPNG,
-      voiceLine: HadesAudio
-    },
-    {
-      name: 'Ursula',
-      image: UrsulaPNG,
-      voiceLine: UrsulaAudio
-    },
-    {
-      name: 'Jafar',
-      image: jafarPNG,
-      voiceLine: jafarAudio
-    },
-    {
-      name: 'Captain Hook',
-      image: CapHookPNG,
-      voiceLine: CapHookAudio
-    },
-    {
-      name: 'The Evil Queen',
-      image: EvilQueenPNG,
-      voiceLine: EvilQueenAudio
-    },
-    {
-      name: 'Scar',
-      image: ScarPNG,
-      voiceLine: ScarAudio
-    },
-    {
-      name: 'Professor Ratigan',
-      image: RatiganPNG,
-      voiceLine: RatiganAudio
-    },
-    {
-      name: 'Yzma',
-      image: YzmaPNG,
-      voiceLine: YzmaAudio
-    },
-    {
-      name: 'Cruella De Vil',
-      image: CruellaDeVilPNG,
-      voiceLine: CruellaDeVilAudio
-    },
-    {
-      name: 'Mother Gothel',
-      image: MotherGothelPNG,
-      voiceLine: MotherGothelAudio
-    },
-    {
-      name: 'Prince John',
-      image: PrinceJohnPNG,
-      voiceLine: PrinceJohnAudio
-    },
-    {
-      name: 'The Queen of Hearts',
-      image: QueenOfHeartsPNG,
-      voiceLine: QueenOfHeartsAudio
-    },
-    {
-      name: 'Pete',
-      image: PetePNG,
-      voiceLine: PeteAudio
-    },
-    {
-      name: 'Gaston',
-      image: GastonPNG,
-      voiceLine: GastonAudio
-    },
-    {
-      name: 'The Horned King',
-      image: HornedKingPNG,
-      voiceLine: HornedKingAudio
-    },
-    {
-      name: 'Lady Tremaine',
-      image: LadyTremainePNG,
-      voiceLine: LadyTremaineAudio
-    },
-    {
-      name: 'Lotso',
-      image: LotsoPNG,
-      voiceLine: LotsoAudio
-    },
-    {
-      name: 'Madam Mim',
-      image: MadamMimPNG,
-      voiceLine: MadamMimAudio
-    },
-    {
-      name: 'Syndrome',
-      image: SyndromePNG,
-      voiceLine: SyndromeAudio
-    }
-  ];
+// Organized by expansion boxes
+const VillainsByExpansion = {
+  'Base Game': [
+    { name: 'Maleficent', image: MalefPNG, voiceLine: MalefAudio, expansion: 'Base Game' },
+    { name: 'The Queen of Hearts', image: QueenOfHeartsPNG, voiceLine: QueenOfHeartsAudio, expansion: 'Base Game' },
+    { name: 'Captain Hook', image: CapHookPNG, voiceLine: CapHookAudio, expansion: 'Base Game' },
+    { name: 'Ursula', image: UrsulaPNG, voiceLine: UrsulaAudio, expansion: 'Base Game' },
+    { name: 'Prince John', image: PrinceJohnPNG, voiceLine: PrinceJohnAudio, expansion: 'Base Game' },
+    { name: 'Jafar', image: jafarPNG, voiceLine: jafarAudio, expansion: 'Base Game' }
+  ],
+  'Wicked to the Core': [
+    { name: 'Dr. Facilier', image: DrFacPNG, voiceLine: DrFacAudio, expansion: 'Wicked to the Core' },
+    { name: 'The Evil Queen', image: EvilQueenPNG, voiceLine: EvilQueenAudio, expansion: 'Wicked to the Core' },
+    { name: 'Hades', image: HadesPNG, voiceLine: HadesAudio, expansion: 'Wicked to the Core' }
+  ],
+  'Evil Comes Prepared': [
+    { name: 'Professor Ratigan', image: RatiganPNG, voiceLine: RatiganAudio, expansion: 'Evil Comes Prepared' },
+    { name: 'Scar', image: ScarPNG, voiceLine: ScarAudio, expansion: 'Evil Comes Prepared' },
+    { name: 'Yzma', image: YzmaPNG, voiceLine: YzmaAudio, expansion: 'Evil Comes Prepared' }
+  ],
+  'Perfectly Wretched': [
+    { name: 'Cruella De Vil', image: CruellaDeVilPNG, voiceLine: CruellaDeVilAudio, expansion: 'Perfectly Wretched' },
+    { name: 'Mother Gothel', image: MotherGothelPNG, voiceLine: MotherGothelAudio, expansion: 'Perfectly Wretched' },
+    { name: 'Pete', image: PetePNG, voiceLine: PeteAudio, expansion: 'Perfectly Wretched' }
+  ],
+  'Despicable Plots': [
+    { name: 'Gaston', image: GastonPNG, voiceLine: GastonAudio, expansion: 'Despicable Plots' },
+    { name: 'The Horned King', image: HornedKingPNG, voiceLine: HornedKingAudio, expansion: 'Despicable Plots' },
+    { name: 'Lady Tremaine', image: LadyTremainePNG, voiceLine: LadyTremaineAudio, expansion: 'Despicable Plots' }
+  ],
+  'Bigger and Badder': [
+    { name: 'Lotso', image: LotsoPNG, voiceLine: LotsoAudio, expansion: 'Bigger and Badder' },
+    { name: 'Syndrome', image: SyndromePNG, voiceLine: SyndromeAudio, expansion: 'Bigger and Badder' },
+    { name: 'Madam Mim', image: MadamMimPNG, voiceLine: MadamMimAudio, expansion: 'Bigger and Badder' }
+  ],
+  'Filled with Fright': [
+    { name: 'Oogie Boogie', image: null, voiceLine: null, expansion: 'Filled with Fright', placeholder: true }
+  ],
+  'Sugar and Spite': [
+    { name: 'King Candy', image: null, voiceLine: null, expansion: 'Sugar and Spite', placeholder: true },
+    { name: 'Shere Khan', image: null, voiceLine: null, expansion: 'Sugar and Spite', placeholder: true }
+  ],
+  'Treacherous Tides': [
+    { name: 'Davy Jones', image: null, voiceLine: null, expansion: 'Treacherous Tides', placeholder: true },
+    { name: 'Tamatoa', image: null, voiceLine: null, expansion: 'Treacherous Tides', placeholder: true }
+  ]
+};
+
+// Flatten all villains into a single array
+const getAllVillains = () => {
+  return Object.values(VillainsByExpansion).flat();
+};
+
+const VillanousCharacters = getAllVillains();
   class VillanousCharacterSelector extends React.Component {
     constructor(props) {
       super(props);
       this.audioRef = React.createRef();
       this.state = {
         currentCharacter: VillanousCharacters[0],
+        selectedExpansions: Object.keys(VillainsByExpansion),
+        selectedVillains: VillanousCharacters.filter(v => !v.placeholder).map(v => v.name),
+        filterMode: 'expansion' // 'expansion' or 'villain'
       };
       this.handleClick = this.handleClick.bind(this);
+      this.toggleExpansion = this.toggleExpansion.bind(this);
+      this.toggleVillain = this.toggleVillain.bind(this);
+      this.toggleFilterMode = this.toggleFilterMode.bind(this);
+      this.selectAllExpansions = this.selectAllExpansions.bind(this);
+      this.selectAllVillains = this.selectAllVillains.bind(this);
     }
-  
+
+    getAvailableVillains() {
+      const { filterMode, selectedExpansions, selectedVillains } = this.state;
+
+      if (filterMode === 'expansion') {
+        // Filter by selected expansions
+        return VillanousCharacters.filter(villain =>
+          selectedExpansions.includes(villain.expansion) && !villain.placeholder
+        );
+      } else {
+        // Filter by selected individual villains
+        return VillanousCharacters.filter(villain =>
+          selectedVillains.includes(villain.name) && !villain.placeholder
+        );
+      }
+    }
+
     handleClick() {
-      const randomIndex = Math.floor(Math.random() * VillanousCharacters.length);
-      const randomCharacter = VillanousCharacters[randomIndex];
+      const availableVillains = this.getAvailableVillains();
+
+      if (availableVillains.length === 0) {
+        alert('Please select at least one expansion or villain!');
+        return;
+      }
+
+      const randomIndex = Math.floor(Math.random() * availableVillains.length);
+      const randomCharacter = availableVillains[randomIndex];
       this.setState({
         currentCharacter: randomCharacter
       });
-  
+
       // Stop the audio
-      this.audioRef.current.pause();
-  
-      // Play the audio again
-      this.audioRef.current.play();
-      
+      if (this.audioRef.current && randomCharacter.voiceLine) {
+        this.audioRef.current.pause();
+        this.audioRef.current.play();
+      }
+    }
+
+    toggleExpansion(expansion) {
+      this.setState(prevState => {
+        const isSelected = prevState.selectedExpansions.includes(expansion);
+        return {
+          selectedExpansions: isSelected
+            ? prevState.selectedExpansions.filter(e => e !== expansion)
+            : [...prevState.selectedExpansions, expansion]
+        };
+      });
+    }
+
+    toggleVillain(villainName) {
+      this.setState(prevState => {
+        const isSelected = prevState.selectedVillains.includes(villainName);
+        return {
+          selectedVillains: isSelected
+            ? prevState.selectedVillains.filter(v => v !== villainName)
+            : [...prevState.selectedVillains, villainName]
+        };
+      });
+    }
+
+    toggleFilterMode() {
+      this.setState(prevState => ({
+        filterMode: prevState.filterMode === 'expansion' ? 'villain' : 'expansion'
+      }));
+    }
+
+    selectAllExpansions() {
+      this.setState({
+        selectedExpansions: Object.keys(VillainsByExpansion)
+      });
+    }
+
+    selectAllVillains() {
+      this.setState({
+        selectedVillains: VillanousCharacters.filter(v => !v.placeholder).map(v => v.name)
+      });
     }
   
     render() {
+      const { currentCharacter, filterMode, selectedExpansions, selectedVillains } = this.state;
+      const availableCount = this.getAvailableVillains().length;
+
       return (
-        <div>
-          <h1>Random Villanous Character</h1>
-          <Image src={this.state.currentCharacter.image} alt={this.state.currentCharacter.name} />
-          <h1>{this.state.currentCharacter.name}</h1>
-          <audio src={this.state.currentCharacter.voiceLine} ref={this.audioRef} autoPlay/>
-          {/* <audio src={this.state.currentCharacter.voiceLine} controls autoplay/> */}
-          <Button className="button" onClick={this.handleClick}>Choose a Villain!</Button>
+        <div className="app-container">
+          <h1>Random Villainous Character</h1>
+
+          {/* Filter Mode Toggle */}
+          <div className="filter-mode-toggle">
+            <Button
+              variant={filterMode === 'expansion' ? 'primary' : 'secondary'}
+              onClick={this.toggleFilterMode}
+              className="mode-button"
+            >
+              {filterMode === 'expansion' ? 'Filter by Expansion' : 'Filter by Villain'}
+            </Button>
+          </div>
+
+          {/* Filter Controls */}
+          <div className="filter-controls">
+            {filterMode === 'expansion' ? (
+              <div className="expansion-filters">
+                <div className="filter-header">
+                  <h3>Select Expansions:</h3>
+                  <Button size="sm" onClick={this.selectAllExpansions}>Select All</Button>
+                </div>
+                <div className="filter-grid">
+                  {Object.keys(VillainsByExpansion).map(expansion => {
+                    const villainCount = VillainsByExpansion[expansion].filter(v => !v.placeholder).length;
+                    const hasPlaceholders = VillainsByExpansion[expansion].some(v => v.placeholder);
+
+                    return (
+                      <label key={expansion} className="filter-item">
+                        <input
+                          type="checkbox"
+                          checked={selectedExpansions.includes(expansion)}
+                          onChange={() => this.toggleExpansion(expansion)}
+                          disabled={villainCount === 0}
+                        />
+                        <span className={villainCount === 0 ? 'disabled-text' : ''}>
+                          {expansion} ({villainCount})
+                          {hasPlaceholders && <span className="placeholder-note"> *</span>}
+                        </span>
+                      </label>
+                    );
+                  })}
+                </div>
+              </div>
+            ) : (
+              <div className="villain-filters">
+                <div className="filter-header">
+                  <h3>Select Villains:</h3>
+                  <Button size="sm" onClick={this.selectAllVillains}>Select All</Button>
+                </div>
+                <div className="filter-grid">
+                  {VillanousCharacters.filter(v => !v.placeholder).map(villain => (
+                    <label key={villain.name} className="filter-item">
+                      <input
+                        type="checkbox"
+                        checked={selectedVillains.includes(villain.name)}
+                        onChange={() => this.toggleVillain(villain.name)}
+                      />
+                      <span>{villain.name}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Current Character Display */}
+          <div className="character-display">
+            {currentCharacter.image ? (
+              <>
+                <Image src={currentCharacter.image} alt={currentCharacter.name} className="villain-image" />
+                <h2>{currentCharacter.name}</h2>
+                <p className="expansion-name">{currentCharacter.expansion}</p>
+                {currentCharacter.voiceLine && (
+                  <audio src={currentCharacter.voiceLine} ref={this.audioRef} autoPlay/>
+                )}
+              </>
+            ) : (
+              <>
+                <div className="placeholder-box">
+                  <h2>{currentCharacter.name}</h2>
+                  <p>Image & Audio Not Available</p>
+                </div>
+                <p className="expansion-name">{currentCharacter.expansion}</p>
+              </>
+            )}
+          </div>
+
+          {/* Randomize Button */}
+          <div className="button-container">
+            <Button className="button randomize-button" onClick={this.handleClick}>
+              Choose a Villain!
+            </Button>
+            <p className="available-count">
+              {availableCount} villain{availableCount !== 1 ? 's' : ''} available
+            </p>
+          </div>
+
+          {/* Placeholder Note */}
+          <div className="footer-note">
+            <p>* Expansions with placeholders need image/audio assets</p>
+          </div>
         </div>
       );
     }
