@@ -44,6 +44,16 @@ import UrsulaAudio from './audio/ursula.mp3';
 import UrsulaPNG from './images/ursula.png';
 import YzmaAudio from './audio/yzma.mp3';
 import YzmaPNG from './images/yzma.png';
+import OogieAudio from './audio/oogieboogie.mp3';
+import OogiePNG from './images/oogieboogie.png';
+import KingCandyAudio from './audio/kingcandy.mp3';
+import KingCandyPNG from './images/kingcandy.png';
+import ShereKhanAudio from './audio/sherekhan.mp3';
+import ShereKhanPNG from './images/sherekhan.png';
+import DavyJonesAudio from './audio/davyjones.mp3';
+import DavyJonesPNG from './images/davyjones.png';
+import TamatoaAudio from './audio/tamatoa.mp3';
+import TamatoaPNG from './images/tamatoa.png';
 
 
 // Organized by expansion boxes
@@ -82,15 +92,15 @@ const VillainsByExpansion = {
     { name: 'Madam Mim', image: MadamMimPNG, voiceLine: MadamMimAudio, expansion: 'Bigger and Badder' }
   ],
   'Filled with Fright': [
-    { name: 'Oogie Boogie', image: null, voiceLine: null, expansion: 'Filled with Fright', placeholder: true }
+    { name: 'Oogie Boogie', image: OogiePNG, voiceLine: OogieAudio, expansion: 'Filled with Fright' }
   ],
   'Sugar and Spite': [
-    { name: 'King Candy', image: null, voiceLine: null, expansion: 'Sugar and Spite', placeholder: true },
-    { name: 'Shere Khan', image: null, voiceLine: null, expansion: 'Sugar and Spite', placeholder: true }
+    { name: 'King Candy', image: KingCandyPNG, voiceLine: KingCandyAudio, expansion: 'Sugar and Spite' },
+    { name: 'Shere Khan', image: ShereKhanPNG, voiceLine: ShereKhanAudio, expansion: 'Sugar and Spite' }
   ],
   'Treacherous Tides': [
-    { name: 'Davy Jones', image: null, voiceLine: null, expansion: 'Treacherous Tides', placeholder: true },
-    { name: 'Tamatoa', image: null, voiceLine: null, expansion: 'Treacherous Tides', placeholder: true }
+    { name: 'Davy Jones', image: DavyJonesPNG, voiceLine: DavyJonesAudio, expansion: 'Treacherous Tides' },
+    { name: 'Tamatoa', image: TamatoaPNG, voiceLine: TamatoaAudio, expansion: 'Treacherous Tides' }
   ]
 };
 
@@ -107,7 +117,7 @@ const VillanousCharacters = getAllVillains();
       this.state = {
         currentCharacter: VillanousCharacters[0],
         selectedExpansions: Object.keys(VillainsByExpansion),
-        selectedVillains: VillanousCharacters.filter(v => !v.placeholder).map(v => v.name),
+        selectedVillains: VillanousCharacters.map(v => v.name),
         filterMode: 'expansion' // 'expansion' or 'villain'
       };
       this.handleClick = this.handleClick.bind(this);
@@ -124,12 +134,12 @@ const VillanousCharacters = getAllVillains();
       if (filterMode === 'expansion') {
         // Filter by selected expansions
         return VillanousCharacters.filter(villain =>
-          selectedExpansions.includes(villain.expansion) && !villain.placeholder
+          selectedExpansions.includes(villain.expansion)
         );
       } else {
         // Filter by selected individual villains
         return VillanousCharacters.filter(villain =>
-          selectedVillains.includes(villain.name) && !villain.placeholder
+          selectedVillains.includes(villain.name)
         );
       }
     }
@@ -191,7 +201,7 @@ const VillanousCharacters = getAllVillains();
 
     selectAllVillains() {
       this.setState({
-        selectedVillains: VillanousCharacters.filter(v => !v.placeholder).map(v => v.name)
+        selectedVillains: VillanousCharacters.map(v => v.name)
       });
     }
   
@@ -224,8 +234,7 @@ const VillanousCharacters = getAllVillains();
                 </div>
                 <div className="filter-grid">
                   {Object.keys(VillainsByExpansion).map(expansion => {
-                    const villainCount = VillainsByExpansion[expansion].filter(v => !v.placeholder).length;
-                    const hasPlaceholders = VillainsByExpansion[expansion].some(v => v.placeholder);
+                    const villainCount = VillainsByExpansion[expansion].length;
 
                     return (
                       <label key={expansion} className="filter-item">
@@ -233,11 +242,9 @@ const VillanousCharacters = getAllVillains();
                           type="checkbox"
                           checked={selectedExpansions.includes(expansion)}
                           onChange={() => this.toggleExpansion(expansion)}
-                          disabled={villainCount === 0}
                         />
-                        <span className={villainCount === 0 ? 'disabled-text' : ''}>
+                        <span>
                           {expansion} ({villainCount})
-                          {hasPlaceholders && <span className="placeholder-note"> *</span>}
                         </span>
                       </label>
                     );
@@ -251,7 +258,7 @@ const VillanousCharacters = getAllVillains();
                   <Button size="sm" onClick={this.selectAllVillains}>Select All</Button>
                 </div>
                 <div className="filter-grid">
-                  {VillanousCharacters.filter(v => !v.placeholder).map(villain => (
+                  {VillanousCharacters.map(villain => (
                     <label key={villain.name} className="filter-item">
                       <input
                         type="checkbox"
@@ -298,10 +305,6 @@ const VillanousCharacters = getAllVillains();
             </p>
           </div>
 
-          {/* Placeholder Note */}
-          <div className="footer-note">
-            <p>* Expansions with placeholders need image/audio assets</p>
-          </div>
         </div>
       );
     }
