@@ -120,7 +120,9 @@ const VillanousCharacters = getAllVillains();
         selectedExpansions: Object.keys(VillainsByExpansion),
         selectedVillains: VillanousCharacters.map(v => v.name),
         filterMode: 'expansion', // 'expansion' or 'villain'
-        isSpinning: false
+        isSpinning: false,
+        reelVillains: [], // Array of villains for the reel display
+        reelOffset: 0 // Vertical offset for animation
       };
       this.handleClick = this.handleClick.bind(this);
       this.toggleExpansion = this.toggleExpansion.bind(this);
@@ -173,43 +175,61 @@ const VillanousCharacters = getAllVillains();
     }
 
     spinToVillain(availableVillains, finalCharacter) {
-      this.setState({ isSpinning: true });
+      // Create a reel with multiple cycles of villains
+      const reelLength = 40; // How many villain slots in the reel
+      const reelVillains = [];
 
-      let currentIndex = 0;
+      // Fill the reel with random villains from available pool
+      for (let i = 0; i < reelLength; i++) {
+        const randomVillain = availableVillains[Math.floor(Math.random() * availableVillains.length)];
+        reelVillains.push(randomVillain);
+      }
+
+      // Make sure the final villain is at the end
+      reelVillains[reelLength - 1] = finalCharacter;
+
+      this.setState({
+        isSpinning: true,
+        reelVillains: reelVillains,
+        reelOffset: 0
+      });
+
+      let currentOffset = 0;
       let spinCount = 0;
-      const totalSpins = 30; // Total number of villain changes
-      let currentDelay = 50; // Starting delay in ms
+      const totalSpins = reelLength - 1;
+      let currentDelay = 30; // Starting delay in ms
 
       const spin = () => {
         spinCount++;
-
-        // Cycle through available villains
-        currentIndex = (currentIndex + 1) % availableVillains.length;
+        currentOffset++;
 
         this.setState({
-          currentCharacter: availableVillains[currentIndex]
+          reelOffset: currentOffset,
+          currentCharacter: reelVillains[currentOffset]
         });
 
         // Calculate progressive delay (slow down effect)
         const progress = spinCount / totalSpins;
-        currentDelay = 50 + (progress * progress * 400); // Exponential slowdown
+        currentDelay = 30 + (progress * progress * progress * 500); // Cubic slowdown
 
         if (spinCount < totalSpins) {
           // Continue spinning
           this.spinInterval = setTimeout(spin, currentDelay);
         } else {
           // Final reveal
-          this.setState({
-            currentCharacter: finalCharacter,
-            isSpinning: false
-          });
+          setTimeout(() => {
+            this.setState({
+              isSpinning: false
+            });
 
-          // Play audio after animation completes
-          if (this.audioRef.current && finalCharacter.voiceLine) {
-            this.audioRef.current.pause();
-            this.audioRef.current.currentTime = 0;
-            this.audioRef.current.play();
-          }
+            // Play audio after animation completes
+            setTimeout(() => {
+              if (this.audioRef.current && finalCharacter.voiceLine) {
+                this.audioRef.current.load();
+                this.audioRef.current.play().catch(err => console.log('Audio play failed:', err));
+              }
+            }, 100);
+          }, 300);
         }
       };
 
@@ -325,28 +345,55 @@ const VillanousCharacters = getAllVillains();
           </div>
 
           {/* Current Character Display */}
-          <div className={`character-display ${isSpinning ? 'spinning' : ''}`}>
-            {currentCharacter.image ? (
-              <>
-                <Image
-                  src={currentCharacter.image}
-                  alt={currentCharacter.name}
-                  className={`villain-image ${isSpinning ? 'spinning' : ''}`}
-                />
-                <h2 className={isSpinning ? 'spinning' : ''}>{currentCharacter.name}</h2>
-                <p className={`expansion-name ${isSpinning ? 'spinning' : ''}`}>{currentCharacter.expansion}</p>
-                {currentCharacter.voiceLine && !isSpinning && (
-                  <audio src={currentCharacter.voiceLine} ref={this.audioRef}/>
-                )}
-              </>
-            ) : (
-              <>
-                <div className="placeholder-box">
-                  <h2>{currentCharacter.name}</h2>
-                  <p>Image & Audio Not Available</p>
+          <div className="character-display-wrapper">
+            <div className={`character-display ${isSpinning ? 'spinning' : ''}`}>
+              {isSpinning && this.state.reelVillains.length > 0 ? (
+                <div className="slot-reel">
+                  <div
+                    className="reel-container"
+                    style={{
+                      transform: `translateY(-${this.state.reelOffset * 400}px)`,
+                      transition: 'transform 0.1s ease-out'
+                    }}
+                  >
+                    {this.state.reelVillains.map((villain, index) => (
+                      <div key={index} className="reel-item">
+                        <Image
+                          src={villain.image}
+                          alt={villain.name}
+                          className="villain-image reel-villain"
+                        />
+                        <h2>{villain.name}</h2>
+                        <p className="expansion-name">{villain.expansion}</p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <p className="expansion-name">{currentCharacter.expansion}</p>
-              </>
+              ) : (
+                currentCharacter.image ? (
+                  <>
+                    <Image
+                      src={currentCharacter.image}
+                      alt={currentCharacter.name}
+                      className="villain-image"
+                    />
+                    <h2>{currentCharacter.name}</h2>
+                    <p className="expansion-name">{currentCharacter.expansion}</p>
+                  </>
+                ) : (
+                  <>
+                    <div className="placeholder-box">
+                      <h2>{currentCharacter.name}</h2>
+                      <p>Image & Audio Not Available</p>
+                    </div>
+                    <p className="expansion-name">{currentCharacter.expansion}</p>
+                  </>
+                )
+              )}
+            </div>
+            {/* Always render audio element */}
+            {currentCharacter.voiceLine && (
+              <audio src={currentCharacter.voiceLine} ref={this.audioRef} style={{display: 'none'}}/>
             )}
           </div>
 
