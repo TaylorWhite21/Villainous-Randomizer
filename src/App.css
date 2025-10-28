@@ -43,12 +43,6 @@ h2 {
   font-size: 2em;
   text-shadow: 0 0 8px rgb(126, 1, 1);
   margin: 10px 0;
-  transition: all 0.1s ease;
-}
-
-h2.spinning {
-  opacity: 0.6;
-  filter: blur(1px);
 }
 
 h3 {
@@ -130,6 +124,10 @@ h3 {
 }
 
 /* Character Display */
+.character-display-wrapper {
+  position: relative;
+}
+
 .character-display {
   margin: 30px 0;
   padding: 20px;
@@ -141,11 +139,66 @@ h3 {
   justify-content: center;
   align-items: center;
   transition: all 0.3s ease;
+  position: relative;
 }
 
 .character-display.spinning {
   background: rgba(50, 0, 0, 0.7);
   box-shadow: 0 0 30px rgba(255, 0, 0, 0.6);
+  overflow: hidden;
+}
+
+/* Slot Reel Styles */
+.slot-reel {
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slot-reel::before,
+.slot-reel::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 80px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.slot-reel::before {
+  top: 0;
+  background: linear-gradient(to bottom, rgba(50, 0, 0, 0.9), transparent);
+}
+
+.slot-reel::after {
+  bottom: 0;
+  background: linear-gradient(to top, rgba(50, 0, 0, 0.9), transparent);
+}
+
+.reel-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  will-change: transform;
+}
+
+.reel-item {
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.reel-villain {
+  filter: blur(2px);
+  opacity: 0.9;
 }
 
 .villain-image {
@@ -155,20 +208,6 @@ h3 {
   margin: 20px auto;
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
-  transition: all 0.1s ease;
-}
-
-.villain-image.spinning {
-  filter: blur(3px);
-  transform: scale(0.95);
-  opacity: 0.8;
-  animation: shake 0.1s infinite;
-}
-
-@keyframes shake {
-  0%, 100% { transform: scale(0.95) translateX(0); }
-  25% { transform: scale(0.95) translateX(-2px); }
-  75% { transform: scale(0.95) translateX(2px); }
 }
 
 .expansion-name {
@@ -176,12 +215,6 @@ h3 {
   color: #ffcc00;
   font-style: italic;
   margin-top: 5px;
-  transition: all 0.1s ease;
-}
-
-.expansion-name.spinning {
-  opacity: 0.5;
-  filter: blur(1px);
 }
 
 .placeholder-box {
