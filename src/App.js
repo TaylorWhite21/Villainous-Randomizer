@@ -175,14 +175,14 @@ const VillanousCharacters = getAllVillains();
     }
 
     spinToVillain(availableVillains, finalCharacter) {
-      // Create a reel with multiple cycles of villains
-      const reelLength = 40; // How many villain slots in the reel
+      // Create a reel with the available villains
+      const reelLength = availableVillains.length;
       const reelVillains = [];
 
-      // Fill the reel with random villains from available pool
+      // Fill the reel with shuffled villains from available pool
+      const shuffled = [...availableVillains].sort(() => Math.random() - 0.5);
       for (let i = 0; i < reelLength; i++) {
-        const randomVillain = availableVillains[Math.floor(Math.random() * availableVillains.length)];
-        reelVillains.push(randomVillain);
+        reelVillains.push(shuffled[i]);
       }
 
       // Make sure the final villain is at the end
