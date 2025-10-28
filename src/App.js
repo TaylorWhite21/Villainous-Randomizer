@@ -114,11 +114,13 @@ const VillanousCharacters = getAllVillains();
     constructor(props) {
       super(props);
       this.audioRef = React.createRef();
+      this.spinInterval = null;
       this.state = {
         currentCharacter: VillanousCharacters[0],
         selectedExpansions: Object.keys(VillainsByExpansion),
         selectedVillains: VillanousCharacters.map(v => v.name),
-        filterMode: 'expansion' // 'expansion' or 'villain'
+        filterMode: 'expansion', // 'expansion' or 'villain'
+        isSpinning: false
       };
       this.handleClick = this.handleClick.bind(this);
       this.toggleExpansion = this.toggleExpansion.bind(this);
@@ -126,6 +128,13 @@ const VillanousCharacters = getAllVillains();
       this.toggleFilterMode = this.toggleFilterMode.bind(this);
       this.selectAllExpansions = this.selectAllExpansions.bind(this);
       this.selectAllVillains = this.selectAllVillains.bind(this);
+      this.spinToVillain = this.spinToVillain.bind(this);
+    }
+
+    componentWillUnmount() {
+      if (this.spinInterval) {
+        clearInterval(this.spinInterval);
+      }
     }
 
     getAvailableVillains() {
@@ -152,17 +161,59 @@ const VillanousCharacters = getAllVillains();
         return;
       }
 
+      // Don't allow clicking during spin
+      if (this.state.isSpinning) {
+        return;
+      }
+
       const randomIndex = Math.floor(Math.random() * availableVillains.length);
       const randomCharacter = availableVillains[randomIndex];
-      this.setState({
-        currentCharacter: randomCharacter
-      });
 
-      // Stop the audio
-      if (this.audioRef.current && randomCharacter.voiceLine) {
-        this.audioRef.current.pause();
-        this.audioRef.current.play();
-      }
+      this.spinToVillain(availableVillains, randomCharacter);
+    }
+
+    spinToVillain(availableVillains, finalCharacter) {
+      this.setState({ isSpinning: true });
+
+      let currentIndex = 0;
+      let spinCount = 0;
+      const totalSpins = 30; // Total number of villain changes
+      let currentDelay = 50; // Starting delay in ms
+
+      const spin = () => {
+        spinCount++;
+
+        // Cycle through available villains
+        currentIndex = (currentIndex + 1) % availableVillains.length;
+
+        this.setState({
+          currentCharacter: availableVillains[currentIndex]
+        });
+
+        // Calculate progressive delay (slow down effect)
+        const progress = spinCount / totalSpins;
+        currentDelay = 50 + (progress * progress * 400); // Exponential slowdown
+
+        if (spinCount < totalSpins) {
+          // Continue spinning
+          this.spinInterval = setTimeout(spin, currentDelay);
+        } else {
+          // Final reveal
+          this.setState({
+            currentCharacter: finalCharacter,
+            isSpinning: false
+          });
+
+          // Play audio after animation completes
+          if (this.audioRef.current && finalCharacter.voiceLine) {
+            this.audioRef.current.pause();
+            this.audioRef.current.currentTime = 0;
+            this.audioRef.current.play();
+          }
+        }
+      };
+
+      spin();
     }
 
     toggleExpansion(expansion) {
@@ -206,7 +257,7 @@ const VillanousCharacters = getAllVillains();
     }
   
     render() {
-      const { currentCharacter, filterMode, selectedExpansions, selectedVillains } = this.state;
+      const { currentCharacter, filterMode, selectedExpansions, selectedVillains, isSpinning } = this.state;
       const availableCount = this.getAvailableVillains().length;
 
       return (
@@ -274,14 +325,18 @@ const VillanousCharacters = getAllVillains();
           </div>
 
           {/* Current Character Display */}
-          <div className="character-display">
+          <div className={`character-display ${isSpinning ? 'spinning' : ''}`}>
             {currentCharacter.image ? (
               <>
-                <Image src={currentCharacter.image} alt={currentCharacter.name} className="villain-image" />
-                <h2>{currentCharacter.name}</h2>
-                <p className="expansion-name">{currentCharacter.expansion}</p>
-                {currentCharacter.voiceLine && (
-                  <audio src={currentCharacter.voiceLine} ref={this.audioRef} autoPlay/>
+                <Image
+                  src={currentCharacter.image}
+                  alt={currentCharacter.name}
+                  className={`villain-image ${isSpinning ? 'spinning' : ''}`}
+                />
+                <h2 className={isSpinning ? 'spinning' : ''}>{currentCharacter.name}</h2>
+                <p className={`expansion-name ${isSpinning ? 'spinning' : ''}`}>{currentCharacter.expansion}</p>
+                {currentCharacter.voiceLine && !isSpinning && (
+                  <audio src={currentCharacter.voiceLine} ref={this.audioRef}/>
                 )}
               </>
             ) : (
@@ -297,8 +352,12 @@ const VillanousCharacters = getAllVillains();
 
           {/* Randomize Button */}
           <div className="button-container">
-            <Button className="button randomize-button" onClick={this.handleClick}>
-              Choose a Villain!
+            <Button
+              className={`button randomize-button ${isSpinning ? 'spinning' : ''}`}
+              onClick={this.handleClick}
+              disabled={isSpinning}
+            >
+              {isSpinning ? 'Spinning...' : 'Choose a Villain!'}
             </Button>
             <p className="available-count">
               {availableCount} villain{availableCount !== 1 ? 's' : ''} available

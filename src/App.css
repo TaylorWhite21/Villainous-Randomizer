@@ -43,6 +43,12 @@ h2 {
   font-size: 2em;
   text-shadow: 0 0 8px rgb(126, 1, 1);
   margin: 10px 0;
+  transition: all 0.1s ease;
+}
+
+h2.spinning {
+  opacity: 0.6;
+  filter: blur(1px);
 }
 
 h3 {
@@ -134,6 +140,12 @@ h3 {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  transition: all 0.3s ease;
+}
+
+.character-display.spinning {
+  background: rgba(50, 0, 0, 0.7);
+  box-shadow: 0 0 30px rgba(255, 0, 0, 0.6);
 }
 
 .villain-image {
@@ -143,6 +155,20 @@ h3 {
   margin: 20px auto;
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+  transition: all 0.1s ease;
+}
+
+.villain-image.spinning {
+  filter: blur(3px);
+  transform: scale(0.95);
+  opacity: 0.8;
+  animation: shake 0.1s infinite;
+}
+
+@keyframes shake {
+  0%, 100% { transform: scale(0.95) translateX(0); }
+  25% { transform: scale(0.95) translateX(-2px); }
+  75% { transform: scale(0.95) translateX(2px); }
 }
 
 .expansion-name {
@@ -150,6 +176,12 @@ h3 {
   color: #ffcc00;
   font-style: italic;
   margin-top: 5px;
+  transition: all 0.1s ease;
+}
+
+.expansion-name.spinning {
+  opacity: 0.5;
+  filter: blur(1px);
 }
 
 .placeholder-box {
@@ -191,10 +223,26 @@ h3 {
   transition: all 0.3s;
 }
 
-.randomize-button:hover {
+.randomize-button:hover:not(:disabled) {
   background-color: #a00000 !important;
   box-shadow: 0 0 30px rgba(255, 0, 0, 0.8);
   transform: scale(1.05);
+}
+
+.randomize-button:disabled {
+  background-color: #555 !important;
+  cursor: not-allowed !important;
+  opacity: 0.6;
+  box-shadow: none;
+}
+
+.randomize-button.spinning {
+  animation: pulse 0.8s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(255, 0, 0, 0.5); }
+  50% { box-shadow: 0 0 30px rgba(255, 0, 0, 0.8); }
 }
 
 .available-count {
