@@ -137,7 +137,9 @@ const VillanousCharacters = getAllVillains();
         reelOffset: 0, // Vertical offset for animation
         animationSpeed: 'normal', // 'fast', 'normal', 'slow'
         playerCount: 1, // 1-6 players
-        selectedMultiVillains: [] // Array of selected villains for multi-player
+        selectedMultiVillains: [], // Array of selected villains for multi-player
+        showGameSettings: false, // Collapsible game settings
+        showFilters: false // Collapsible filters
       };
       this.handleClick = this.handleClick.bind(this);
       this.toggleExpansion = this.toggleExpansion.bind(this);
@@ -150,6 +152,8 @@ const VillanousCharacters = getAllVillains();
       this.setAnimationSpeed = this.setAnimationSpeed.bind(this);
       this.setPlayerCount = this.setPlayerCount.bind(this);
       this.selectMultipleVillains = this.selectMultipleVillains.bind(this);
+      this.toggleGameSettings = this.toggleGameSettings.bind(this);
+      this.toggleFilters = this.toggleFilters.bind(this);
     }
 
     componentWillUnmount() {
@@ -368,17 +372,41 @@ const VillanousCharacters = getAllVillains();
         selectedVillains: VillanousCharacters.map(v => v.name)
       });
     }
-  
+
+    toggleGameSettings() {
+      this.setState(prevState => ({
+        showGameSettings: !prevState.showGameSettings
+      }));
+    }
+
+    toggleFilters() {
+      this.setState(prevState => ({
+        showFilters: !prevState.showFilters
+      }));
+    }
+
     render() {
-      const { currentCharacter, filterMode, selectedExpansions, selectedVillains, isSpinning, animationSpeed, playerCount, selectedMultiVillains } = this.state;
+      const { currentCharacter, filterMode, selectedExpansions, selectedVillains, isSpinning, animationSpeed, playerCount, selectedMultiVillains, showGameSettings, showFilters } = this.state;
       const availableCount = this.getAvailableVillains().length;
 
       return (
         <div className="app-container">
           <h1>Random Villainous Character</h1>
 
+          {/* Game Settings Toggle */}
+          <div className="section-toggle">
+            <Button
+              variant="outline-warning"
+              onClick={this.toggleGameSettings}
+              className="toggle-button"
+            >
+              {showGameSettings ? '▼' : '▶'} Game Settings
+            </Button>
+          </div>
+
           {/* Game Settings */}
-          <div className="game-settings">
+          {showGameSettings && (
+            <div className="game-settings">
             {/* Player Count */}
             <div className="setting-group">
               <label>Players:</label>
@@ -428,20 +456,34 @@ const VillanousCharacters = getAllVillains();
               </div>
             </div>
           </div>
+          )}
 
-          {/* Filter Mode Toggle */}
-          <div className="filter-mode-toggle">
+          {/* Filters Toggle */}
+          <div className="section-toggle">
             <Button
-              variant={filterMode === 'expansion' ? 'primary' : 'secondary'}
-              onClick={this.toggleFilterMode}
-              className="mode-button"
+              variant="outline-warning"
+              onClick={this.toggleFilters}
+              className="toggle-button"
             >
-              {filterMode === 'expansion' ? 'Filter by Expansion' : 'Filter by Villain'}
+              {showFilters ? '▼' : '▶'} Filters
             </Button>
           </div>
 
-          {/* Filter Controls */}
-          <div className="filter-controls">
+          {/* Filter Mode Toggle */}
+          {showFilters && (
+            <>
+              <div className="filter-mode-toggle">
+                <Button
+                  variant={filterMode === 'expansion' ? 'primary' : 'secondary'}
+                  onClick={this.toggleFilterMode}
+                  className="mode-button"
+                >
+                  {filterMode === 'expansion' ? 'Filter by Expansion' : 'Filter by Villain'}
+                </Button>
+              </div>
+
+              {/* Filter Controls */}
+              <div className="filter-controls">
             {filterMode === 'expansion' ? (
               <div className="expansion-filters">
                 <div className="filter-header">
@@ -488,6 +530,8 @@ const VillanousCharacters = getAllVillains();
               </div>
             )}
           </div>
+            </>
+          )}
 
           {/* Current Character Display - Only show in single player mode */}
           {(playerCount === 1 || selectedMultiVillains.length === 0) && (
