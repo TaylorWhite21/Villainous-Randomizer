@@ -446,6 +446,24 @@ h4 {
   box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
 }
 
+/* Villain info adjustments for multi-villain cards */
+.multi-villain-card .villain-info {
+  margin-top: 15px;
+  padding: 10px;
+}
+
+.multi-villain-card .difficulty-badge {
+  padding: 6px 12px;
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+.multi-villain-card .objective-text {
+  font-size: 12px;
+  line-height: 1.4;
+  padding: 8px;
+}
+
 /* Footer Note */
 .footer-note {
   margin-top: 20px;
