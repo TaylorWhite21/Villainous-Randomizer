@@ -122,7 +122,10 @@ const VillanousCharacters = getAllVillains();
         filterMode: 'expansion', // 'expansion' or 'villain'
         isSpinning: false,
         reelVillains: [], // Array of villains for the reel display
-        reelOffset: 0 // Vertical offset for animation
+        reelOffset: 0, // Vertical offset for animation
+        animationSpeed: 'normal', // 'fast', 'normal', 'slow'
+        playerCount: 1, // 1-6 players
+        selectedMultiVillains: [] // Array of selected villains for multi-player
       };
       this.handleClick = this.handleClick.bind(this);
       this.toggleExpansion = this.toggleExpansion.bind(this);
@@ -131,6 +134,10 @@ const VillanousCharacters = getAllVillains();
       this.selectAllExpansions = this.selectAllExpansions.bind(this);
       this.selectAllVillains = this.selectAllVillains.bind(this);
       this.spinToVillain = this.spinToVillain.bind(this);
+      this.skipAnimation = this.skipAnimation.bind(this);
+      this.setAnimationSpeed = this.setAnimationSpeed.bind(this);
+      this.setPlayerCount = this.setPlayerCount.bind(this);
+      this.selectMultipleVillains = this.selectMultipleVillains.bind(this);
     }
 
     componentWillUnmount() {
@@ -157,6 +164,7 @@ const VillanousCharacters = getAllVillains();
 
     handleClick() {
       const availableVillains = this.getAvailableVillains();
+      const { playerCount } = this.state;
 
       if (availableVillains.length === 0) {
         alert('Please select at least one expansion or villain!');
@@ -168,13 +176,27 @@ const VillanousCharacters = getAllVillains();
         return;
       }
 
-      const randomIndex = Math.floor(Math.random() * availableVillains.length);
-      const randomCharacter = availableVillains[randomIndex];
-
-      this.spinToVillain(availableVillains, randomCharacter);
+      // Multi-player mode: select multiple villains
+      if (playerCount > 1) {
+        this.selectMultipleVillains(availableVillains, playerCount);
+      } else {
+        // Single player mode
+        const randomIndex = Math.floor(Math.random() * availableVillains.length);
+        const randomCharacter = availableVillains[randomIndex];
+        this.spinToVillain(availableVillains, randomCharacter);
+      }
     }
 
     spinToVillain(availableVillains, finalCharacter) {
+      // Get speed multiplier
+      const { animationSpeed } = this.state;
+      const speedMultipliers = {
+        fast: 0.5,    // 2x faster
+        normal: 1,    // normal speed
+        slow: 2       // 2x slower
+      };
+      const speedMult = speedMultipliers[animationSpeed] || 1;
+
       // Create a reel with the available villains
       const reelLength = availableVillains.length;
       const reelVillains = [];
@@ -197,7 +219,7 @@ const VillanousCharacters = getAllVillains();
       let currentOffset = 0;
       let spinCount = 0;
       const totalSpins = reelLength - 1;
-      let currentDelay = 30; // Starting delay in ms
+      let currentDelay = 30 * speedMult; // Starting delay in ms
 
       const spin = () => {
         spinCount++;
@@ -210,7 +232,7 @@ const VillanousCharacters = getAllVillains();
 
         // Calculate progressive delay (slow down effect)
         const progress = spinCount / totalSpins;
-        currentDelay = 30 + (progress * progress * progress * 500); // Cubic slowdown
+        currentDelay = (30 + (progress * progress * progress * 500)) * speedMult; // Cubic slowdown
 
         if (spinCount < totalSpins) {
           // Continue spinning
@@ -229,11 +251,70 @@ const VillanousCharacters = getAllVillains();
                 this.audioRef.current.play().catch(err => console.log('Audio play failed:', err));
               }
             }, 100);
-          }, 300);
+          }, 300 * speedMult);
         }
       };
 
       spin();
+    }
+
+    skipAnimation() {
+      if (this.spinInterval) {
+        clearTimeout(this.spinInterval);
+      }
+
+      const { reelVillains } = this.state;
+      if (reelVillains.length > 0) {
+        const finalVillain = reelVillains[reelVillains.length - 1];
+        this.setState({
+          isSpinning: false,
+          currentCharacter: finalVillain,
+          reelOffset: reelVillains.length - 1
+        });
+
+        // Play audio
+        setTimeout(() => {
+          if (this.audioRef.current && finalVillain.voiceLine) {
+            this.audioRef.current.load();
+            this.audioRef.current.play().catch(err => console.log('Audio play failed:', err));
+          }
+        }, 100);
+      }
+    }
+
+    setAnimationSpeed(speed) {
+      this.setState({ animationSpeed: speed });
+    }
+
+    setPlayerCount(count) {
+      this.setState({
+        playerCount: count,
+        selectedMultiVillains: [] // Reset multi-villain selection
+      });
+    }
+
+    selectMultipleVillains(availableVillains, count) {
+      if (availableVillains.length < count) {
+        alert(`Not enough villains available! Please select at least ${count} villains.`);
+        return;
+      }
+
+      // Shuffle and select unique villains
+      const shuffled = [...availableVillains].sort(() => Math.random() - 0.5);
+      const selected = shuffled.slice(0, count);
+
+      this.setState({
+        selectedMultiVillains: selected,
+        currentCharacter: selected[0] // Show first villain in main display
+      });
+
+      // Play first villain's audio
+      setTimeout(() => {
+        if (this.audioRef.current && selected[0].voiceLine) {
+          this.audioRef.current.load();
+          this.audioRef.current.play().catch(err => console.log('Audio play failed:', err));
+        }
+      }, 100);
     }
 
     toggleExpansion(expansion) {
@@ -277,12 +358,64 @@ const VillanousCharacters = getAllVillains();
     }
   
     render() {
-      const { currentCharacter, filterMode, selectedExpansions, selectedVillains, isSpinning } = this.state;
+      const { currentCharacter, filterMode, selectedExpansions, selectedVillains, isSpinning, animationSpeed, playerCount, selectedMultiVillains } = this.state;
       const availableCount = this.getAvailableVillains().length;
 
       return (
         <div className="app-container">
           <h1>Random Villainous Character</h1>
+
+          {/* Game Settings */}
+          <div className="game-settings">
+            {/* Player Count */}
+            <div className="setting-group">
+              <label>Players:</label>
+              <div className="button-group">
+                {[1, 2, 3, 4, 5, 6].map(count => (
+                  <Button
+                    key={count}
+                    size="sm"
+                    variant={playerCount === count ? 'primary' : 'outline-primary'}
+                    onClick={() => this.setPlayerCount(count)}
+                    disabled={isSpinning}
+                  >
+                    {count}
+                  </Button>
+                ))}
+              </div>
+            </div>
+
+            {/* Animation Speed */}
+            <div className="setting-group">
+              <label>Speed:</label>
+              <div className="button-group">
+                <Button
+                  size="sm"
+                  variant={animationSpeed === 'fast' ? 'primary' : 'outline-primary'}
+                  onClick={() => this.setAnimationSpeed('fast')}
+                  disabled={isSpinning}
+                >
+                  Fast
+                </Button>
+                <Button
+                  size="sm"
+                  variant={animationSpeed === 'normal' ? 'primary' : 'outline-primary'}
+                  onClick={() => this.setAnimationSpeed('normal')}
+                  disabled={isSpinning}
+                >
+                  Normal
+                </Button>
+                <Button
+                  size="sm"
+                  variant={animationSpeed === 'slow' ? 'primary' : 'outline-primary'}
+                  onClick={() => this.setAnimationSpeed('slow')}
+                  disabled={isSpinning}
+                >
+                  Slow
+                </Button>
+              </div>
+            </div>
+          </div>
 
           {/* Filter Mode Toggle */}
           <div className="filter-mode-toggle">
@@ -413,17 +546,44 @@ const VillanousCharacters = getAllVillains();
 
           {/* Randomize Button */}
           <div className="button-container">
-            <Button
-              className={`button randomize-button ${isSpinning ? 'spinning' : ''}`}
-              onClick={this.handleClick}
-              disabled={isSpinning}
-            >
-              {isSpinning ? 'Spinning...' : 'Choose a Villain!'}
-            </Button>
+            <div className="button-row">
+              <Button
+                className={`button randomize-button ${isSpinning ? 'spinning' : ''}`}
+                onClick={this.handleClick}
+                disabled={isSpinning}
+              >
+                {isSpinning ? 'Spinning...' : (playerCount > 1 ? `Choose ${playerCount} Villains!` : 'Choose a Villain!')}
+              </Button>
+              {isSpinning && playerCount === 1 && (
+                <Button
+                  className="skip-button"
+                  onClick={this.skipAnimation}
+                  variant="outline-light"
+                >
+                  Skip
+                </Button>
+              )}
+            </div>
             <p className="available-count">
               {availableCount} villain{availableCount !== 1 ? 's' : ''} available
             </p>
           </div>
+
+          {/* Multi-Player Results */}
+          {playerCount > 1 && selectedMultiVillains.length > 0 && (
+            <div className="multi-villain-results">
+              <h3>Selected Villains:</h3>
+              <div className="multi-villain-grid">
+                {selectedMultiVillains.map((villain, index) => (
+                  <div key={index} className="multi-villain-card">
+                    <Image src={villain.image} alt={villain.name} className="multi-villain-image" />
+                    <h4>{villain.name}</h4>
+                    <p className="expansion-name">{villain.expansion}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
         </div>
       );
