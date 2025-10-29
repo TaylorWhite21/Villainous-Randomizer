@@ -56,51 +56,51 @@ import TamatoaAudio from './audio/tamatoa.mp3';
 import TamatoaPNG from './images/tamatoa.png';
 
 
-// Organized by expansion boxes
+// Organized by expansion boxes with difficulty and objectives
 const VillainsByExpansion = {
   'Base Game': [
-    { name: 'Maleficent', image: MalefPNG, voiceLine: MalefAudio, expansion: 'Base Game' },
-    { name: 'The Queen of Hearts', image: QueenOfHeartsPNG, voiceLine: QueenOfHeartsAudio, expansion: 'Base Game' },
-    { name: 'Captain Hook', image: CapHookPNG, voiceLine: CapHookAudio, expansion: 'Base Game' },
-    { name: 'Ursula', image: UrsulaPNG, voiceLine: UrsulaAudio, expansion: 'Base Game' },
-    { name: 'Prince John', image: PrinceJohnPNG, voiceLine: PrinceJohnAudio, expansion: 'Base Game' },
-    { name: 'Jafar', image: jafarPNG, voiceLine: jafarAudio, expansion: 'Base Game' }
+    { name: 'Maleficent', image: MalefPNG, voiceLine: MalefAudio, expansion: 'Base Game', difficulty: 'Easy', objective: 'Play a curse to each location in your realm' },
+    { name: 'The Queen of Hearts', image: QueenOfHeartsPNG, voiceLine: QueenOfHeartsAudio, expansion: 'Base Game', difficulty: 'Easy', objective: 'Have a Wicket at each location and successfully take a shot' },
+    { name: 'Captain Hook', image: CapHookPNG, voiceLine: CapHookAudio, expansion: 'Base Game', difficulty: 'Medium', objective: 'Defeat Peter Pan at the Jolly Roger' },
+    { name: 'Ursula', image: UrsulaPNG, voiceLine: UrsulaAudio, expansion: 'Base Game', difficulty: 'Hard', objective: 'Have the Trident and the Crown at Ursula\'s Lair' },
+    { name: 'Prince John', image: PrinceJohnPNG, voiceLine: PrinceJohnAudio, expansion: 'Base Game', difficulty: 'Very Easy', objective: 'Accumulate 20 power' },
+    { name: 'Jafar', image: jafarPNG, voiceLine: jafarAudio, expansion: 'Base Game', difficulty: 'Hard', objective: 'Unlock Cave of Wonders, find Magic Lamp, Hypnotize Genie, move Lamp to Sultan\'s palace' }
   ],
   'Wicked to the Core': [
-    { name: 'Dr. Facilier', image: DrFacPNG, voiceLine: DrFacAudio, expansion: 'Wicked to the Core' },
-    { name: 'The Evil Queen', image: EvilQueenPNG, voiceLine: EvilQueenAudio, expansion: 'Wicked to the Core' },
-    { name: 'Hades', image: HadesPNG, voiceLine: HadesAudio, expansion: 'Wicked to the Core' }
+    { name: 'Dr. Facilier', image: DrFacPNG, voiceLine: DrFacAudio, expansion: 'Wicked to the Core', difficulty: 'Hard', objective: 'Use Fortune pile mechanics to transform New Orleans' },
+    { name: 'The Evil Queen', image: EvilQueenPNG, voiceLine: EvilQueenAudio, expansion: 'Wicked to the Core', difficulty: 'Medium', objective: 'Vanquish Snow White using poison' },
+    { name: 'Hades', image: HadesPNG, voiceLine: HadesAudio, expansion: 'Wicked to the Core', difficulty: 'Hard', objective: 'Get three Titans to Mount Olympus' }
   ],
   'Evil Comes Prepared': [
-    { name: 'Professor Ratigan', image: RatiganPNG, voiceLine: RatiganAudio, expansion: 'Evil Comes Prepared' },
-    { name: 'Scar', image: ScarPNG, voiceLine: ScarAudio, expansion: 'Evil Comes Prepared' },
-    { name: 'Yzma', image: YzmaPNG, voiceLine: YzmaAudio, expansion: 'Evil Comes Prepared' }
+    { name: 'Professor Ratigan', image: RatiganPNG, voiceLine: RatiganAudio, expansion: 'Evil Comes Prepared', difficulty: 'Very Hard', objective: 'Start turn with Robot Queen at Buckingham Palace, or defeat Basil' },
+    { name: 'Scar', image: ScarPNG, voiceLine: ScarAudio, expansion: 'Evil Comes Prepared', difficulty: 'Hard', objective: 'Start turn with at least 15 in Succession pile' },
+    { name: 'Yzma', image: YzmaPNG, voiceLine: YzmaAudio, expansion: 'Evil Comes Prepared', difficulty: 'Very Hard', objective: 'Defeat Kuzco using Kronk' }
   ],
   'Perfectly Wretched': [
-    { name: 'Cruella De Vil', image: CruellaDeVilPNG, voiceLine: CruellaDeVilAudio, expansion: 'Perfectly Wretched' },
-    { name: 'Mother Gothel', image: MotherGothelPNG, voiceLine: MotherGothelAudio, expansion: 'Perfectly Wretched' },
-    { name: 'Pete', image: PetePNG, voiceLine: PeteAudio, expansion: 'Perfectly Wretched' }
+    { name: 'Cruella De Vil', image: CruellaDeVilPNG, voiceLine: CruellaDeVilAudio, expansion: 'Perfectly Wretched', difficulty: 'Medium', objective: 'Start turn with at least 99 captured puppies' },
+    { name: 'Mother Gothel', image: MotherGothelPNG, voiceLine: MotherGothelAudio, expansion: 'Perfectly Wretched', difficulty: 'Hard', objective: 'Have at least 10 Trust with Rapunzel' },
+    { name: 'Pete', image: PetePNG, voiceLine: PeteAudio, expansion: 'Perfectly Wretched', difficulty: 'Medium', objective: 'Complete four different randomly selected goals' }
   ],
   'Despicable Plots': [
-    { name: 'Gaston', image: GastonPNG, voiceLine: GastonAudio, expansion: 'Despicable Plots' },
-    { name: 'The Horned King', image: HornedKingPNG, voiceLine: HornedKingAudio, expansion: 'Despicable Plots' },
-    { name: 'Lady Tremaine', image: LadyTremainePNG, voiceLine: LadyTremaineAudio, expansion: 'Despicable Plots' }
+    { name: 'Gaston', image: GastonPNG, voiceLine: GastonAudio, expansion: 'Despicable Plots', difficulty: 'Medium', objective: 'Remove obstacles to prove you\'re the perfect man' },
+    { name: 'The Horned King', image: HornedKingPNG, voiceLine: HornedKingAudio, expansion: 'Despicable Plots', difficulty: 'Hard', objective: 'Acquire Black Cauldron and fill realm with Cauldron Born' },
+    { name: 'Lady Tremaine', image: LadyTremainePNG, voiceLine: LadyTremaineAudio, expansion: 'Despicable Plots', difficulty: 'Very Hard', objective: 'Marry one of your stepdaughters to The Prince' }
   ],
   'Bigger and Badder': [
-    { name: 'Lotso', image: LotsoPNG, voiceLine: LotsoAudio, expansion: 'Bigger and Badder' },
-    { name: 'Syndrome', image: SyndromePNG, voiceLine: SyndromeAudio, expansion: 'Bigger and Badder' },
-    { name: 'Madam Mim', image: MadamMimPNG, voiceLine: MadamMimAudio, expansion: 'Bigger and Badder' }
+    { name: 'Lotso', image: LotsoPNG, voiceLine: LotsoAudio, expansion: 'Bigger and Badder', difficulty: 'Hard', objective: 'Weaken heroes and move them to Caterpillar Room' },
+    { name: 'Syndrome', image: SyndromePNG, voiceLine: SyndromeAudio, expansion: 'Bigger and Badder', difficulty: 'Very Hard', objective: 'Activate Remote at Omnidroid v.10 location, then clear realm of Heroes' },
+    { name: 'Madam Mim', image: MadamMimPNG, voiceLine: MadamMimAudio, expansion: 'Bigger and Badder', difficulty: 'Medium', objective: 'Defeat Merlin in a wizard\'s duel' }
   ],
   'Filled with Fright': [
-    { name: 'Oogie Boogie', image: OogiePNG, voiceLine: OogieAudio, expansion: 'Filled with Fright' }
+    { name: 'Oogie Boogie', image: OogiePNG, voiceLine: OogieAudio, expansion: 'Filled with Fright', difficulty: 'Hard', objective: 'Convince Jack to return to Halloween Town and defeat him' }
   ],
   'Sugar and Spite': [
-    { name: 'King Candy', image: KingCandyPNG, voiceLine: KingCandyAudio, expansion: 'Sugar and Spite' },
-    { name: 'Shere Khan', image: ShereKhanPNG, voiceLine: ShereKhanAudio, expansion: 'Sugar and Spite' }
+    { name: 'King Candy', image: KingCandyPNG, voiceLine: KingCandyAudio, expansion: 'Sugar and Spite', difficulty: 'Hard', objective: 'Win the race with complex racing mechanics' },
+    { name: 'Shere Khan', image: ShereKhanPNG, voiceLine: ShereKhanAudio, expansion: 'Sugar and Spite', difficulty: 'Medium', objective: 'Defeat Mowgli and keep fire away' }
   ],
   'Treacherous Tides': [
-    { name: 'Davy Jones', image: DavyJonesPNG, voiceLine: DavyJonesAudio, expansion: 'Treacherous Tides' },
-    { name: 'Tamatoa', image: TamatoaPNG, voiceLine: TamatoaAudio, expansion: 'Treacherous Tides' }
+    { name: 'Davy Jones', image: DavyJonesPNG, voiceLine: DavyJonesAudio, expansion: 'Treacherous Tides', difficulty: 'Medium', objective: 'Collect five treasure tokens' },
+    { name: 'Tamatoa', image: TamatoaPNG, voiceLine: TamatoaAudio, expansion: 'Treacherous Tides', difficulty: 'Medium', objective: 'Have Heart of Te Fiti and Maui\'s Hook at Tamatoa\'s Lair' }
   ]
 };
 
@@ -512,6 +512,20 @@ const VillanousCharacters = getAllVillains();
                     />
                     <h2>{currentCharacter.name}</h2>
                     <p className="expansion-name">{currentCharacter.expansion}</p>
+
+                    {/* Villain Info */}
+                    {currentCharacter.difficulty && (
+                      <div className="villain-info">
+                        <div className={`difficulty-badge difficulty-${currentCharacter.difficulty.toLowerCase().replace(' ', '-')}`}>
+                          <strong>Difficulty:</strong> {currentCharacter.difficulty}
+                        </div>
+                        {currentCharacter.objective && (
+                          <div className="objective-text">
+                            <strong>Objective:</strong> {currentCharacter.objective}
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </>
                 ) : (
                   <>
