@@ -213,21 +213,21 @@ const VillanousCharacters = getAllVillains();
       };
       const speedMult = speedMultipliers[animationSpeed] || 1;
 
-      // Create a reel with the available villains
-      const reelLength = availableVillains.length;
+      // Create a reel with a fixed number of spins (15-18) for consistent animation
+      const fixedSpinCount = 15 + Math.floor(Math.random() * 4); // 15-18 spins
       const reelVillains = [];
 
-      // Fill the reel with shuffled villains from available pool
-      const shuffled = [...availableVillains].sort(() => Math.random() - 0.5);
-      for (let i = 0; i < reelLength; i++) {
-        reelVillains.push(shuffled[i]);
+      // Fill the reel with random villains from available pool
+      for (let i = 0; i < fixedSpinCount; i++) {
+        const randomVillain = availableVillains[Math.floor(Math.random() * availableVillains.length)];
+        reelVillains.push(randomVillain);
       }
 
       // Make sure the final villain is at the end
-      reelVillains[reelLength - 1] = finalCharacter;
+      reelVillains[fixedSpinCount - 1] = finalCharacter;
 
-      console.log('Spinning with', reelLength, 'villains');
-      console.log('Available villains:', availableVillains.map(v => v.name));
+      console.log('Spinning through', fixedSpinCount, 'slots');
+      console.log('Final villain:', finalCharacter.name);
 
       this.setState({
         isSpinning: true,
@@ -237,7 +237,7 @@ const VillanousCharacters = getAllVillains();
 
       let currentOffset = 0;
       let spinCount = 0;
-      const totalSpins = reelLength - 1;
+      const totalSpins = fixedSpinCount - 1;
       let currentDelay = 30 * speedMult; // Starting delay in ms
 
       const spin = () => {
