@@ -477,72 +477,74 @@ const VillanousCharacters = getAllVillains();
             )}
           </div>
 
-          {/* Current Character Display */}
-          <div className="character-display-wrapper">
-            <div className={`character-display ${isSpinning ? 'spinning' : ''}`}>
-              {isSpinning && this.state.reelVillains.length > 0 ? (
-                <div className="slot-reel">
-                  <div
-                    className="reel-container"
-                    style={{
-                      transform: `translateY(-${this.state.reelOffset * 400}px)`,
-                      transition: 'transform 0.1s ease-out'
-                    }}
-                  >
-                    {this.state.reelVillains.map((villain, index) => (
-                      <div key={index} className="reel-item">
-                        <Image
-                          src={villain.image}
-                          alt={villain.name}
-                          className="villain-image reel-villain"
-                        />
-                        <h2>{villain.name}</h2>
-                        <p className="expansion-name">{villain.expansion}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ) : (
-                currentCharacter.image ? (
-                  <>
-                    <Image
-                      src={currentCharacter.image}
-                      alt={currentCharacter.name}
-                      className="villain-image"
-                    />
-                    <h2>{currentCharacter.name}</h2>
-                    <p className="expansion-name">{currentCharacter.expansion}</p>
-
-                    {/* Villain Info */}
-                    {currentCharacter.difficulty && (
-                      <div className="villain-info">
-                        <div className={`difficulty-badge difficulty-${currentCharacter.difficulty.toLowerCase().replace(' ', '-')}`}>
-                          <strong>Difficulty:</strong> {currentCharacter.difficulty}
+          {/* Current Character Display - Only show in single player mode */}
+          {(playerCount === 1 || selectedMultiVillains.length === 0) && (
+            <div className="character-display-wrapper">
+              <div className={`character-display ${isSpinning ? 'spinning' : ''}`}>
+                {isSpinning && this.state.reelVillains.length > 0 ? (
+                  <div className="slot-reel">
+                    <div
+                      className="reel-container"
+                      style={{
+                        transform: `translateY(-${this.state.reelOffset * 400}px)`,
+                        transition: 'transform 0.1s ease-out'
+                      }}
+                    >
+                      {this.state.reelVillains.map((villain, index) => (
+                        <div key={index} className="reel-item">
+                          <Image
+                            src={villain.image}
+                            alt={villain.name}
+                            className="villain-image reel-villain"
+                          />
+                          <h2>{villain.name}</h2>
+                          <p className="expansion-name">{villain.expansion}</p>
                         </div>
-                        {currentCharacter.objective && (
-                          <div className="objective-text">
-                            <strong>Objective:</strong> {currentCharacter.objective}
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  </>
-                ) : (
-                  <>
-                    <div className="placeholder-box">
-                      <h2>{currentCharacter.name}</h2>
-                      <p>Image & Audio Not Available</p>
+                      ))}
                     </div>
-                    <p className="expansion-name">{currentCharacter.expansion}</p>
-                  </>
-                )
+                  </div>
+                ) : (
+                  currentCharacter.image ? (
+                    <>
+                      <Image
+                        src={currentCharacter.image}
+                        alt={currentCharacter.name}
+                        className="villain-image"
+                      />
+                      <h2>{currentCharacter.name}</h2>
+                      <p className="expansion-name">{currentCharacter.expansion}</p>
+
+                      {/* Villain Info */}
+                      {currentCharacter.difficulty && (
+                        <div className="villain-info">
+                          <div className={`difficulty-badge difficulty-${currentCharacter.difficulty.toLowerCase().replace(' ', '-')}`}>
+                            <strong>Difficulty:</strong> {currentCharacter.difficulty}
+                          </div>
+                          {currentCharacter.objective && (
+                            <div className="objective-text">
+                              <strong>Objective:</strong> {currentCharacter.objective}
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      <div className="placeholder-box">
+                        <h2>{currentCharacter.name}</h2>
+                        <p>Image & Audio Not Available</p>
+                      </div>
+                      <p className="expansion-name">{currentCharacter.expansion}</p>
+                    </>
+                  )
+                )}
+              </div>
+              {/* Always render audio element */}
+              {currentCharacter.voiceLine && (
+                <audio src={currentCharacter.voiceLine} ref={this.audioRef} style={{display: 'none'}}/>
               )}
             </div>
-            {/* Always render audio element */}
-            {currentCharacter.voiceLine && (
-              <audio src={currentCharacter.voiceLine} ref={this.audioRef} style={{display: 'none'}}/>
-            )}
-          </div>
+          )}
 
           {/* Randomize Button */}
           <div className="button-container">
@@ -579,6 +581,20 @@ const VillanousCharacters = getAllVillains();
                     <Image src={villain.image} alt={villain.name} className="multi-villain-image" />
                     <h4>{villain.name}</h4>
                     <p className="expansion-name">{villain.expansion}</p>
+
+                    {/* Villain Info */}
+                    {villain.difficulty && (
+                      <div className="villain-info">
+                        <div className={`difficulty-badge difficulty-${villain.difficulty.toLowerCase().replace(' ', '-')}`}>
+                          <strong>Difficulty:</strong> {villain.difficulty}
+                        </div>
+                        {villain.objective && (
+                          <div className="objective-text">
+                            <strong>Objective:</strong> {villain.objective}
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
