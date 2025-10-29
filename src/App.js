@@ -138,8 +138,8 @@ const VillanousCharacters = getAllVillains();
         animationSpeed: 'normal', // 'fast', 'normal', 'slow'
         playerCount: 1, // 1-6 players
         selectedMultiVillains: [], // Array of selected villains for multi-player
-        showGameSettings: false, // Collapsible game settings
-        showFilters: false // Collapsible filters
+        showGameSettings: true, // Collapsible game settings - expanded by default
+        showFilters: true // Collapsible filters - expanded by default
       };
       this.handleClick = this.handleClick.bind(this);
       this.toggleExpansion = this.toggleExpansion.bind(this);
@@ -225,6 +225,9 @@ const VillanousCharacters = getAllVillains();
 
       // Make sure the final villain is at the end
       reelVillains[reelLength - 1] = finalCharacter;
+
+      console.log('Spinning with', reelLength, 'villains');
+      console.log('Available villains:', availableVillains.map(v => v.name));
 
       this.setState({
         isSpinning: true,
