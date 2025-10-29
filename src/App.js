@@ -101,6 +101,18 @@ const VillainsByExpansion = {
   'Treacherous Tides': [
     { name: 'Davy Jones', image: DavyJonesPNG, voiceLine: DavyJonesAudio, expansion: 'Treacherous Tides', difficulty: 'Medium', objective: 'Collect five treasure tokens' },
     { name: 'Tamatoa', image: TamatoaPNG, voiceLine: TamatoaAudio, expansion: 'Treacherous Tides', difficulty: 'Medium', objective: 'Have Heart of Te Fiti and Maui\'s Hook at Tamatoa\'s Lair' }
+  ],
+  'Introduction to Evil': [
+    { name: 'Maleficent (Intro)', image: MalefPNG, voiceLine: MalefAudio, expansion: 'Introduction to Evil', difficulty: 'Easy', objective: 'Have a Curse at each location in your realm' },
+    { name: 'Captain Hook (Intro)', image: CapHookPNG, voiceLine: CapHookAudio, expansion: 'Introduction to Evil', difficulty: 'Medium', objective: 'Defeat Peter Pan at the Jolly Roger' },
+    { name: 'Ursula (Intro)', image: UrsulaPNG, voiceLine: UrsulaAudio, expansion: 'Introduction to Evil', difficulty: 'Hard', objective: 'Have the Trident and the Crown at Ursula\'s Lair' },
+    { name: 'Prince John (Intro)', image: PrinceJohnPNG, voiceLine: PrinceJohnAudio, expansion: 'Introduction to Evil', difficulty: 'Easy', objective: 'Accumulate 20 power and have Robin Hood at The Jail' }
+  ],
+  'Unstoppable': [
+    { name: 'Hades (Unstoppable)', image: HadesPNG, voiceLine: HadesAudio, expansion: 'Unstoppable', difficulty: 'Easy', objective: 'Move your Titan four spaces to complete your evil plan' },
+    { name: 'Ursula (Unstoppable)', image: UrsulaPNG, voiceLine: UrsulaAudio, expansion: 'Unstoppable', difficulty: 'Easy', objective: 'Gather four shells and flip doomed merfolk to their cursed forms' },
+    { name: 'Maleficent (Unstoppable)', image: MalefPNG, voiceLine: MalefAudio, expansion: 'Unstoppable', difficulty: 'Easy', objective: 'Assemble a four-piece jigsaw that becomes a dragon' },
+    { name: 'Scar (Unstoppable)', image: ScarPNG, voiceLine: ScarAudio, expansion: 'Unstoppable', difficulty: 'Easy', objective: 'Collect four pain tokens to complete your evil plan' }
   ]
 };
 
