@@ -1,6 +1,8 @@
 import './App.css';
 import React from 'react';
 import { Button, Image } from 'react-bootstrap';
+import { motion } from 'framer-motion';
+import Confetti from 'react-confetti';
 
 import CapHookAudio from './audio/CapHook.mp3';
 import CapHookPNG from './images/CapHook.png';
@@ -139,7 +141,10 @@ const VillanousCharacters = getAllVillains();
         playerCount: 1, // 1-6 players
         selectedMultiVillains: [], // Array of selected villains for multi-player
         showGameSettings: true, // Collapsible game settings - expanded by default
-        showFilters: true // Collapsible filters - expanded by default
+        showFilters: true, // Collapsible filters - expanded by default
+        showConfetti: false, // Confetti celebration
+        windowWidth: window.innerWidth,
+        windowHeight: window.innerHeight
       };
       this.handleClick = this.handleClick.bind(this);
       this.toggleExpansion = this.toggleExpansion.bind(this);
@@ -156,10 +161,22 @@ const VillanousCharacters = getAllVillains();
       this.toggleFilters = this.toggleFilters.bind(this);
     }
 
+    componentDidMount() {
+      window.addEventListener('resize', this.handleResize);
+    }
+
     componentWillUnmount() {
       if (this.spinInterval) {
         clearInterval(this.spinInterval);
       }
+      window.removeEventListener('resize', this.handleResize);
+    }
+
+    handleResize = () => {
+      this.setState({
+        windowWidth: window.innerWidth,
+        windowHeight: window.innerHeight
+      });
     }
 
     getAvailableVillains() {
@@ -260,8 +277,14 @@ const VillanousCharacters = getAllVillains();
           // Final reveal
           setTimeout(() => {
             this.setState({
-              isSpinning: false
+              isSpinning: false,
+              showConfetti: true // Trigger confetti celebration!
             });
+
+            // Stop confetti after 5 seconds
+            setTimeout(() => {
+              this.setState({ showConfetti: false });
+            }, 5000);
 
             // Play audio after animation completes
             setTimeout(() => {
@@ -324,8 +347,14 @@ const VillanousCharacters = getAllVillains();
 
       this.setState({
         selectedMultiVillains: selected,
-        currentCharacter: selected[0] // Show first villain in main display
+        currentCharacter: selected[0], // Show first villain in main display
+        showConfetti: true // Trigger confetti celebration!
       });
+
+      // Stop confetti after 5 seconds
+      setTimeout(() => {
+        this.setState({ showConfetti: false });
+      }, 5000);
 
       // Play first villain's audio
       setTimeout(() => {
@@ -389,11 +418,22 @@ const VillanousCharacters = getAllVillains();
     }
 
     render() {
-      const { currentCharacter, filterMode, selectedExpansions, selectedVillains, isSpinning, animationSpeed, playerCount, selectedMultiVillains, showGameSettings, showFilters } = this.state;
+      const { currentCharacter, filterMode, selectedExpansions, selectedVillains, isSpinning, animationSpeed, playerCount, selectedMultiVillains, showGameSettings, showFilters, showConfetti, windowWidth, windowHeight } = this.state;
       const availableCount = this.getAvailableVillains().length;
 
       return (
         <div className="app-container">
+          {/* Confetti Celebration */}
+          {showConfetti && (
+            <Confetti
+              width={windowWidth}
+              height={windowHeight}
+              numberOfPieces={200}
+              recycle={false}
+              colors={['#ff0000', '#8b0000', '#ffcc00', '#ff6f00', '#4a0000']}
+            />
+          )}
+
           <h1>Random Villainous Character</h1>
 
           {/* Game Settings Toggle */}
@@ -564,18 +604,49 @@ const VillanousCharacters = getAllVillains();
                   </div>
                 ) : (
                   currentCharacter.image ? (
-                    <>
-                      <Image
-                        src={currentCharacter.image}
-                        alt={currentCharacter.name}
-                        className="villain-image"
-                      />
+                    <motion.div
+                      key={currentCharacter.name}
+                      initial={{ opacity: 0, scale: 0.5, rotateY: 180 }}
+                      animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+                      transition={{
+                        duration: 0.8,
+                        type: "spring",
+                        stiffness: 120,
+                        damping: 15
+                      }}
+                    >
+                      <motion.div
+                        animate={!isSpinning ? {
+                          scale: [1, 1.05, 1],
+                          boxShadow: [
+                            "0 0 20px rgba(255, 0, 0, 0.3)",
+                            "0 0 40px rgba(255, 204, 0, 0.6)",
+                            "0 0 20px rgba(255, 0, 0, 0.3)"
+                          ]
+                        } : {}}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          repeatType: "reverse"
+                        }}
+                      >
+                        <Image
+                          src={currentCharacter.image}
+                          alt={currentCharacter.name}
+                          className="villain-image"
+                        />
+                      </motion.div>
                       <h2>{currentCharacter.name}</h2>
                       <p className="expansion-name">{currentCharacter.expansion}</p>
 
                       {/* Villain Info */}
                       {currentCharacter.difficulty && (
-                        <div className="villain-info">
+                        <motion.div
+                          className="villain-info"
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.3, duration: 0.5 }}
+                        >
                           <div className={`difficulty-badge difficulty-${currentCharacter.difficulty.toLowerCase().replace(' ', '-')}`}>
                             <strong>Difficulty:</strong> {currentCharacter.difficulty}
                           </div>
@@ -584,9 +655,9 @@ const VillanousCharacters = getAllVillains();
                               <strong>Objective:</strong> {currentCharacter.objective}
                             </div>
                           )}
-                        </div>
+                        </motion.div>
                       )}
-                    </>
+                    </motion.div>
                   ) : (
                     <>
                       <div className="placeholder-box">
@@ -632,11 +703,33 @@ const VillanousCharacters = getAllVillains();
 
           {/* Multi-Player Results */}
           {playerCount > 1 && selectedMultiVillains.length > 0 && (
-            <div className="multi-villain-results">
+            <motion.div
+              className="multi-villain-results"
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
               <h3>Selected Villains:</h3>
               <div className="multi-villain-grid">
                 {selectedMultiVillains.map((villain, index) => (
-                  <div key={index} className="multi-villain-card">
+                  <motion.div
+                    key={index}
+                    className="multi-villain-card"
+                    initial={{ opacity: 0, scale: 0.8, rotateY: -90 }}
+                    animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+                    transition={{
+                      duration: 0.6,
+                      delay: index * 0.1,
+                      type: "spring",
+                      stiffness: 100
+                    }}
+                    whileHover={{
+                      scale: 1.08,
+                      rotateY: 5,
+                      boxShadow: "0 0 30px rgba(255, 204, 0, 0.8)",
+                      transition: { duration: 0.3 }
+                    }}
+                  >
                     <Image src={villain.image} alt={villain.name} className="multi-villain-image" />
                     <h4>{villain.name}</h4>
                     <p className="expansion-name">{villain.expansion}</p>
@@ -654,10 +747,10 @@ const VillanousCharacters = getAllVillains();
                         )}
                       </div>
                     )}
-                  </div>
+                  </motion.div>
                 ))}
               </div>
-            </div>
+            </motion.div>
           )}
 
         </div>
