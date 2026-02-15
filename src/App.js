@@ -153,7 +153,8 @@ function fisherYatesShuffle(array) {
         showGameSettings: true, // Collapsible game settings - expanded by default
         showFilters: true, // Collapsible filters - expanded by default
         villainHistory: [], // Session history of selected villains
-        showHistory: true // Collapsible history panel
+        showHistory: true, // Collapsible history panel
+        showSidebar: true // Sidebar visibility (for mobile toggle)
       };
       this.handleClick = this.handleClick.bind(this);
       this.toggleExpansion = this.toggleExpansion.bind(this);
@@ -170,6 +171,7 @@ function fisherYatesShuffle(array) {
       this.toggleFilters = this.toggleFilters.bind(this);
       this.clearHistory = this.clearHistory.bind(this);
       this.toggleHistory = this.toggleHistory.bind(this);
+      this.toggleSidebar = this.toggleSidebar.bind(this);
     }
 
     componentWillUnmount() {
@@ -396,285 +398,300 @@ function fisherYatesShuffle(array) {
       this.setState(prevState => ({ showHistory: !prevState.showHistory }));
     }
 
+    toggleSidebar() {
+      this.setState(prevState => ({ showSidebar: !prevState.showSidebar }));
+    }
+
     render() {
       const {
         currentCharacter, filterMode, selectedExpansions, selectedVillains,
         isSpinning, animationSpeed, playerCount, selectedMultiVillains,
-        showGameSettings, showFilters, villainHistory, showHistory
+        showGameSettings, showFilters, villainHistory, showHistory, showSidebar
       } = this.state;
       const availableCount = this.getAvailableVillains().length;
 
       return (
-        <div className="app-container">
-          <h1>Random Villainous Character</h1>
+        <div className="layout-container">
+          {/* Mobile sidebar toggle (hidden on desktop) */}
+          <Button className="sidebar-toggle" onClick={this.toggleSidebar}>&#9776; Settings &amp; Filters</Button>
 
-          {/* Game Settings Toggle */}
-          <div className="section-toggle">
-            <Button variant="outline-warning" onClick={this.toggleGameSettings} className="toggle-button">
-              {showGameSettings ? '▼' : '▶'} Game Settings
-            </Button>
-          </div>
+          {/* Sidebar backdrop (mobile only, shown when sidebar open) */}
+          {showSidebar && <div className="sidebar-backdrop" onClick={this.toggleSidebar} />}
 
-          {/* Game Settings */}
-          {showGameSettings && (
-            <div className="game-settings">
-              <div className="setting-group">
-                <label>Players:</label>
-                <div className="button-group">
-                  {[1, 2, 3, 4, 5, 6].map(count => (
-                    <Button
-                      key={count}
-                      size="sm"
-                      variant={playerCount === count ? 'primary' : 'outline-primary'}
-                      onClick={() => this.setPlayerCount(count)}
-                      disabled={isSpinning}
-                    >
-                      {count}
-                    </Button>
-                  ))}
-                </div>
-              </div>
+          {/* LEFT SIDEBAR */}
+          <div className={`sidebar ${showSidebar ? 'open' : ''}`}>
 
-              <div className="setting-group">
-                <label>Speed:</label>
-                <div className="button-group">
-                  {['fast', 'normal', 'slow'].map(speed => (
-                    <Button
-                      key={speed}
-                      size="sm"
-                      variant={animationSpeed === speed ? 'primary' : 'outline-primary'}
-                      onClick={() => this.setAnimationSpeed(speed)}
-                      disabled={isSpinning}
-                    >
-                      {speed.charAt(0).toUpperCase() + speed.slice(1)}
-                    </Button>
-                  ))}
-                </div>
-              </div>
+            {/* Game Settings Toggle */}
+            <div className="section-toggle">
+              <Button variant="outline-warning" onClick={this.toggleGameSettings} className="toggle-button">
+                {showGameSettings ? '▼' : '▶'} Game Settings
+              </Button>
             </div>
-          )}
 
-          {/* Filters Toggle */}
-          <div className="section-toggle">
-            <Button variant="outline-warning" onClick={this.toggleFilters} className="toggle-button">
-              {showFilters ? '▼' : '▶'} Filters
-            </Button>
+            {/* Game Settings */}
+            {showGameSettings && (
+              <div className="game-settings">
+                <div className="setting-group">
+                  <label>Players:</label>
+                  <div className="button-group">
+                    {[1, 2, 3, 4, 5, 6].map(count => (
+                      <Button
+                        key={count}
+                        size="sm"
+                        variant={playerCount === count ? 'primary' : 'outline-primary'}
+                        onClick={() => this.setPlayerCount(count)}
+                        disabled={isSpinning}
+                      >
+                        {count}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="setting-group">
+                  <label>Speed:</label>
+                  <div className="button-group">
+                    {['fast', 'normal', 'slow'].map(speed => (
+                      <Button
+                        key={speed}
+                        size="sm"
+                        variant={animationSpeed === speed ? 'primary' : 'outline-primary'}
+                        onClick={() => this.setAnimationSpeed(speed)}
+                        disabled={isSpinning}
+                      >
+                        {speed.charAt(0).toUpperCase() + speed.slice(1)}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Filters Toggle */}
+            <div className="section-toggle">
+              <Button variant="outline-warning" onClick={this.toggleFilters} className="toggle-button">
+                {showFilters ? '▼' : '▶'} Filters
+              </Button>
+            </div>
+
+            {/* Filter Mode Toggle + Controls */}
+            {showFilters && (
+              <>
+                <div className="filter-mode-toggle">
+                  <Button
+                    variant={filterMode === 'expansion' ? 'primary' : 'secondary'}
+                    onClick={this.toggleFilterMode}
+                    className="mode-button"
+                  >
+                    {filterMode === 'expansion' ? 'Filter by Expansion' : 'Filter by Villain'}
+                  </Button>
+                </div>
+
+                <div className="filter-controls">
+                  {filterMode === 'expansion' ? (
+                    <div className="expansion-filters">
+                      <div className="filter-header">
+                        <h3>Select Expansions:</h3>
+                        <Button size="sm" onClick={this.selectAllExpansions}>Select All</Button>
+                      </div>
+                      <div className="filter-grid">
+                        {Object.keys(VillainsByExpansion).map(expansion => (
+                          <label key={expansion} className="filter-item">
+                            <input
+                              type="checkbox"
+                              checked={selectedExpansions.includes(expansion)}
+                              onChange={() => this.toggleExpansion(expansion)}
+                            />
+                            <span>{expansion} ({VillainsByExpansion[expansion].length})</span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="villain-filters">
+                      <div className="filter-header">
+                        <h3>Select Villains:</h3>
+                        <Button size="sm" onClick={this.selectAllVillains}>Select All</Button>
+                      </div>
+                      <div className="filter-grid">
+                        {VillanousCharacters.map(villain => (
+                          <label key={villain.name} className="filter-item">
+                            <input
+                              type="checkbox"
+                              checked={selectedVillains.includes(villain.name)}
+                              onChange={() => this.toggleVillain(villain.name)}
+                            />
+                            <span>{villain.name}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </>
+            )}
+
           </div>
 
-          {/* Filter Mode Toggle + Controls */}
-          {showFilters && (
-            <>
-              <div className="filter-mode-toggle">
-                <Button
-                  variant={filterMode === 'expansion' ? 'primary' : 'secondary'}
-                  onClick={this.toggleFilterMode}
-                  className="mode-button"
-                >
-                  {filterMode === 'expansion' ? 'Filter by Expansion' : 'Filter by Villain'}
-                </Button>
-              </div>
+          {/* MAIN CONTENT */}
+          <div className="main-content">
+            <h1>Random Villainous Character</h1>
 
-              <div className="filter-controls">
-                {filterMode === 'expansion' ? (
-                  <div className="expansion-filters">
-                    <div className="filter-header">
-                      <h3>Select Expansions:</h3>
-                      <Button size="sm" onClick={this.selectAllExpansions}>Select All</Button>
+            {/* Current Character Display */}
+            {(playerCount === 1 || selectedMultiVillains.length === 0) && (
+              <div className="character-display-wrapper">
+                <div className={`character-display ${isSpinning ? 'spinning' : ''}`}>
+                  {isSpinning && this.state.reelVillains.length > 0 ? (
+                    <div className="slot-reel">
+                      <div
+                        className="reel-container"
+                        style={{
+                          transform: `translateY(-${this.state.reelOffset * 400}px)`,
+                          transition: 'transform 0.1s ease-out'
+                        }}
+                      >
+                        {this.state.reelVillains.map((villain, index) => (
+                          <div key={index} className="reel-item">
+                            <Image src={villain.image} alt={villain.name} className="villain-image reel-villain" />
+                            <h2>{villain.name}</h2>
+                            <p className="expansion-name">{villain.expansion}</p>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                    <div className="filter-grid">
-                      {Object.keys(VillainsByExpansion).map(expansion => (
-                        <label key={expansion} className="filter-item">
-                          <input
-                            type="checkbox"
-                            checked={selectedExpansions.includes(expansion)}
-                            onChange={() => this.toggleExpansion(expansion)}
-                          />
-                          <span>{expansion} ({VillainsByExpansion[expansion].length})</span>
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                ) : (
-                  <div className="villain-filters">
-                    <div className="filter-header">
-                      <h3>Select Villains:</h3>
-                      <Button size="sm" onClick={this.selectAllVillains}>Select All</Button>
-                    </div>
-                    <div className="filter-grid">
-                      {VillanousCharacters.map(villain => (
-                        <label key={villain.name} className="filter-item">
-                          <input
-                            type="checkbox"
-                            checked={selectedVillains.includes(villain.name)}
-                            onChange={() => this.toggleVillain(villain.name)}
-                          />
-                          <span>{villain.name}</span>
-                        </label>
-                      ))}
-                    </div>
-                  </div>
+                  ) : (
+                    currentCharacter.image ? (
+                      <>
+                        <Image src={currentCharacter.image} alt={currentCharacter.name} className="villain-image" />
+                        <h2>{currentCharacter.name}</h2>
+                        <p className="expansion-name">{currentCharacter.expansion}</p>
+                        {currentCharacter.difficulty && (
+                          <div className="villain-info">
+                            <div className={`difficulty-badge difficulty-${currentCharacter.difficulty.toLowerCase().replace(' ', '-')}`}>
+                              <strong>Difficulty:</strong> {currentCharacter.difficulty}
+                            </div>
+                            {currentCharacter.objective && (
+                              <div className="objective-text">
+                                <strong>Objective:</strong> {currentCharacter.objective}
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        <div className="placeholder-box">
+                          <h2>{currentCharacter.name}</h2>
+                          <p>Image &amp; Audio Not Available</p>
+                        </div>
+                        <p className="expansion-name">{currentCharacter.expansion}</p>
+                      </>
+                    )
+                  )}
+                </div>
+                {currentCharacter.voiceLine && (
+                  <audio src={currentCharacter.voiceLine} ref={this.audioRef} style={{display: 'none'}}/>
                 )}
               </div>
-            </>
-          )}
+            )}
 
-          {/* Current Character Display */}
-          {(playerCount === 1 || selectedMultiVillains.length === 0) && (
-            <div className="character-display-wrapper">
-              <div className={`character-display ${isSpinning ? 'spinning' : ''}`}>
-                {isSpinning && this.state.reelVillains.length > 0 ? (
-                  <div className="slot-reel">
-                    <div
-                      className="reel-container"
-                      style={{
-                        transform: `translateY(-${this.state.reelOffset * 400}px)`,
-                        transition: 'transform 0.1s ease-out'
-                      }}
-                    >
-                      {this.state.reelVillains.map((villain, index) => (
-                        <div key={index} className="reel-item">
-                          <Image src={villain.image} alt={villain.name} className="villain-image reel-villain" />
-                          <h2>{villain.name}</h2>
-                          <p className="expansion-name">{villain.expansion}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ) : (
-                  currentCharacter.image ? (
-                    <>
-                      <Image src={currentCharacter.image} alt={currentCharacter.name} className="villain-image" />
-                      <h2>{currentCharacter.name}</h2>
-                      <p className="expansion-name">{currentCharacter.expansion}</p>
-                      {currentCharacter.difficulty && (
+            {/* Multi-Player Results */}
+            {playerCount > 1 && selectedMultiVillains.length > 0 && (
+              <div className="multi-villain-results">
+                <h3>Selected Villains:</h3>
+                <div className="multi-villain-grid">
+                  {selectedMultiVillains.map((villain, index) => (
+                    <div key={index} className="multi-villain-card">
+                      <Image src={villain.image} alt={villain.name} className="multi-villain-image" />
+                      <h4>{villain.name}</h4>
+                      <p className="expansion-name">{villain.expansion}</p>
+                      {villain.difficulty && (
                         <div className="villain-info">
-                          <div className={`difficulty-badge difficulty-${currentCharacter.difficulty.toLowerCase().replace(' ', '-')}`}>
-                            <strong>Difficulty:</strong> {currentCharacter.difficulty}
+                          <div className={`difficulty-badge difficulty-${villain.difficulty.toLowerCase().replace(' ', '-')}`}>
+                            <strong>Difficulty:</strong> {villain.difficulty}
                           </div>
-                          {currentCharacter.objective && (
+                          {villain.objective && (
                             <div className="objective-text">
-                              <strong>Objective:</strong> {currentCharacter.objective}
+                              <strong>Objective:</strong> {villain.objective}
                             </div>
                           )}
                         </div>
                       )}
-                    </>
-                  ) : (
-                    <>
-                      <div className="placeholder-box">
-                        <h2>{currentCharacter.name}</h2>
-                        <p>Image & Audio Not Available</p>
-                      </div>
-                      <p className="expansion-name">{currentCharacter.expansion}</p>
-                    </>
-                  )
-                )}
-              </div>
-              {currentCharacter.voiceLine && (
-                <audio src={currentCharacter.voiceLine} ref={this.audioRef} style={{display: 'none'}}/>
-              )}
-            </div>
-          )}
-
-          {/* Randomize Button */}
-          <div className="button-container">
-            <div className="button-row">
-              <Button
-                className={`button randomize-button ${isSpinning ? 'spinning' : ''}`}
-                onClick={this.handleClick}
-                disabled={isSpinning}
-              >
-                {isSpinning ? 'Spinning...' : (playerCount > 1 ? `Choose ${playerCount} Villains!` : 'Choose a Villain!')}
-              </Button>
-              {isSpinning && playerCount === 1 && (
-                <Button className="skip-button" onClick={this.skipAnimation} variant="outline-light">
-                  Skip
-                </Button>
-              )}
-            </div>
-            <p className="available-count">
-              {availableCount} villain{availableCount !== 1 ? 's' : ''} available
-            </p>
-          </div>
-
-          {/* Multi-Player Results */}
-          {playerCount > 1 && selectedMultiVillains.length > 0 && (
-            <div className="multi-villain-results">
-              <h3>Selected Villains:</h3>
-              <div className="multi-villain-grid">
-                {selectedMultiVillains.map((villain, index) => (
-                  <div key={index} className="multi-villain-card">
-                    <Image src={villain.image} alt={villain.name} className="multi-villain-image" />
-                    <h4>{villain.name}</h4>
-                    <p className="expansion-name">{villain.expansion}</p>
-                    {villain.difficulty && (
-                      <div className="villain-info">
-                        <div className={`difficulty-badge difficulty-${villain.difficulty.toLowerCase().replace(' ', '-')}`}>
-                          <strong>Difficulty:</strong> {villain.difficulty}
-                        </div>
-                        {villain.objective && (
-                          <div className="objective-text">
-                            <strong>Objective:</strong> {villain.objective}
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Session History */}
-          {villainHistory.length > 0 && (
-            <div className="history-section">
-              <div className="section-toggle history-toggle">
-                <Button variant="outline-warning" onClick={this.toggleHistory} className="toggle-button">
-                  {showHistory ? '▼' : '▶'} Session History ({villainHistory.length})
-                </Button>
-                <Button variant="outline-danger" size="sm" onClick={this.clearHistory} className="clear-history-button">
-                  Clear
-                </Button>
-              </div>
-
-              {showHistory && (
-                <div className="history-list">
-                  {villainHistory.map((entry, index) => (
-                    <div key={index} className="history-entry">
-                      {entry.players === 1 ? (
-                        <div className="history-single">
-                          <Image src={entry.villain.image} alt={entry.villain.name} className="history-image" />
-                          <div className="history-info">
-                            <span className="history-name">{entry.villain.name}</span>
-                            <span className="history-expansion">{entry.villain.expansion}</span>
-                            <span className={`history-difficulty difficulty-${entry.villain.difficulty.toLowerCase().replace(' ', '-')}`}>
-                              {entry.villain.difficulty}
-                            </span>
-                          </div>
-                          <span className="history-round">Roll {villainHistory.length - index}</span>
-                        </div>
-                      ) : (
-                        <div className="history-multi">
-                          <div className="history-multi-header">
-                            <span className="history-round">Roll {villainHistory.length - index}</span>
-                            <span className="history-player-count">{entry.players} players</span>
-                          </div>
-                          <div className="history-multi-villains">
-                            {entry.villains.map((v, i) => (
-                              <div key={i} className="history-multi-item">
-                                <Image src={v.image} alt={v.name} className="history-image" />
-                                <span className="history-name">{v.name}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
                     </div>
                   ))}
                 </div>
-              )}
-            </div>
-          )}
+              </div>
+            )}
+
+            {/* Session History */}
+            {villainHistory.length > 0 && (
+              <div className="history-section">
+                <div className="section-toggle history-toggle">
+                  <Button variant="outline-warning" onClick={this.toggleHistory} className="toggle-button">
+                    {showHistory ? '▼' : '▶'} Session History ({villainHistory.length})
+                  </Button>
+                  <Button variant="outline-danger" size="sm" onClick={this.clearHistory} className="clear-history-button">
+                    Clear
+                  </Button>
+                </div>
+
+                {showHistory && (
+                  <div className="history-list">
+                    {villainHistory.map((entry, index) => (
+                      <div key={index} className="history-entry">
+                        {entry.players === 1 ? (
+                          <div className="history-single">
+                            <Image src={entry.villain.image} alt={entry.villain.name} className="history-image" />
+                            <div className="history-info">
+                              <span className="history-name">{entry.villain.name}</span>
+                              <span className="history-expansion">{entry.villain.expansion}</span>
+                              <span className={`history-difficulty difficulty-${entry.villain.difficulty.toLowerCase().replace(' ', '-')}`}>
+                                {entry.villain.difficulty}
+                              </span>
+                            </div>
+                            <span className="history-round">Roll {villainHistory.length - index}</span>
+                          </div>
+                        ) : (
+                          <div className="history-multi">
+                            <div className="history-multi-header">
+                              <span className="history-round">Roll {villainHistory.length - index}</span>
+                              <span className="history-player-count">{entry.players} players</span>
+                            </div>
+                            <div className="history-multi-villains">
+                              {entry.villains.map((v, i) => (
+                                <div key={i} className="history-multi-item">
+                                  <Image src={v.image} alt={v.name} className="history-image" />
+                                  <span className="history-name">{v.name}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+          </div>
+
+          {/* STICKY ROLL BAR (fixed to bottom) */}
+          <div className="sticky-roll-bar">
+            <p className="available-count">{availableCount} villain{availableCount !== 1 ? 's' : ''} available</p>
+            <Button
+              className={`button randomize-button ${isSpinning ? 'spinning' : ''}`}
+              onClick={this.handleClick}
+              disabled={isSpinning}
+            >
+              {isSpinning ? 'Spinning...' : (playerCount > 1 ? `Choose ${playerCount} Villains!` : 'Choose a Villain!')}
+            </Button>
+            {isSpinning && playerCount === 1 && (
+              <Button className="skip-button" onClick={this.skipAnimation} variant="outline-light">
+                Skip
+              </Button>
+            )}
+          </div>
 
         </div>
       );
