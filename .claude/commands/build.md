@@ -29,9 +29,9 @@ Review the build output for:
 - Source map warnings are acceptable, no action needed
 
 ### 5. Deployment Readiness Check
-Confirm `package.json` has the `"homepage"` field if deploying to GitHub Pages under a subpath. If it is missing, note:
-- Deploying to root of a domain: `homepage` not required
-- Deploying to `https://user.github.io/Villainous-Randomizer`: requires `"homepage": "https://user.github.io/Villainous-Randomizer"` in `package.json`
+The app is hosted on Netlify (auto-deploys from GitHub main branch).
+- Confirm `package.json` does NOT have a `"homepage"` field — this breaks asset paths on Netlify
+- Netlify runs `npm run build` automatically; no manual deploy step is needed
 
 ## Output
 Report:

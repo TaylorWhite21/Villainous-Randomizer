@@ -109,14 +109,11 @@ The component and some variables are spelled "Villanous" (missing an 'i'). This 
 - Test behavior, not implementation (don't assert on `this.state` directly)
 - **Critical mock required:** `HTMLMediaElement.prototype.play` — JSDOM has no audio support
 
-## GitHub Pages Deployment
-- Build output: `./build/`
-- Before deploying to a GitHub Pages subpath, add to `package.json`:
-  ```json
-  "homepage": "https://<YOUR_GITHUB_USERNAME>.github.io/Villainous-Randomizer"
-  ```
-- Without this, asset paths will 404 under the subpath
-- The deploy workflow (`deploy.yml`) handles the actual deployment automatically
+## Deployment
+- Hosted on **Netlify** at `villainous-randomizer-claude.netlify.app`
+- Netlify auto-deploys on every push to `main` — no manual deploy step needed
+- Do NOT add a `"homepage"` field to `package.json` — that is for GitHub Pages subpath routing and will break asset paths on Netlify
+- Build output: `./build/` (Netlify runs `npm run build` automatically)
 
 ## Available Claude Code Skills
 | Command   | Purpose                                      |
