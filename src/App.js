@@ -62,9 +62,9 @@ const VillainsByExpansion = {
     { name: 'Maleficent', image: MalefPNG, voiceLine: MalefAudio, expansion: 'Base Game', difficulty: 'Easy', objective: 'Play a curse to each location in your realm' },
     { name: 'The Queen of Hearts', image: QueenOfHeartsPNG, voiceLine: QueenOfHeartsAudio, expansion: 'Base Game', difficulty: 'Easy', objective: 'Have a Wicket at each location and successfully take a shot' },
     { name: 'Captain Hook', image: CapHookPNG, voiceLine: CapHookAudio, expansion: 'Base Game', difficulty: 'Medium', objective: 'Defeat Peter Pan at the Jolly Roger' },
-    { name: 'Ursula', image: UrsulaPNG, voiceLine: UrsulaAudio, expansion: 'Base Game', difficulty: 'Hard', objective: 'Have the Trident and the Crown at Ursula\'s Lair' },
+    { name: 'Ursula', image: UrsulaPNG, voiceLine: UrsulaAudio, expansion: 'Base Game', difficulty: 'Hard', objective: "Have the Trident and the Crown at Ursula's Lair" },
     { name: 'Prince John', image: PrinceJohnPNG, voiceLine: PrinceJohnAudio, expansion: 'Base Game', difficulty: 'Very Easy', objective: 'Accumulate 20 power' },
-    { name: 'Jafar', image: jafarPNG, voiceLine: jafarAudio, expansion: 'Base Game', difficulty: 'Hard', objective: 'Unlock Cave of Wonders, find Magic Lamp, Hypnotize Genie, move Lamp to Sultan\'s palace' }
+    { name: 'Jafar', image: jafarPNG, voiceLine: jafarAudio, expansion: 'Base Game', difficulty: 'Hard', objective: "Unlock Cave of Wonders, find Magic Lamp, Hypnotize Genie, move Lamp to Sultan's palace" }
   ],
   'Wicked to the Core': [
     { name: 'Dr. Facilier', image: DrFacPNG, voiceLine: DrFacAudio, expansion: 'Wicked to the Core', difficulty: 'Hard', objective: 'Use Fortune pile mechanics to transform New Orleans' },
@@ -82,14 +82,14 @@ const VillainsByExpansion = {
     { name: 'Pete', image: PetePNG, voiceLine: PeteAudio, expansion: 'Perfectly Wretched', difficulty: 'Medium', objective: 'Complete four different randomly selected goals' }
   ],
   'Despicable Plots': [
-    { name: 'Gaston', image: GastonPNG, voiceLine: GastonAudio, expansion: 'Despicable Plots', difficulty: 'Medium', objective: 'Remove obstacles to prove you\'re the perfect man' },
+    { name: 'Gaston', image: GastonPNG, voiceLine: GastonAudio, expansion: 'Despicable Plots', difficulty: 'Medium', objective: "Remove obstacles to prove you're the perfect man" },
     { name: 'The Horned King', image: HornedKingPNG, voiceLine: HornedKingAudio, expansion: 'Despicable Plots', difficulty: 'Hard', objective: 'Acquire Black Cauldron and fill realm with Cauldron Born' },
     { name: 'Lady Tremaine', image: LadyTremainePNG, voiceLine: LadyTremaineAudio, expansion: 'Despicable Plots', difficulty: 'Very Hard', objective: 'Marry one of your stepdaughters to The Prince' }
   ],
   'Bigger and Badder': [
     { name: 'Lotso', image: LotsoPNG, voiceLine: LotsoAudio, expansion: 'Bigger and Badder', difficulty: 'Hard', objective: 'Weaken heroes and move them to Caterpillar Room' },
     { name: 'Syndrome', image: SyndromePNG, voiceLine: SyndromeAudio, expansion: 'Bigger and Badder', difficulty: 'Very Hard', objective: 'Activate Remote at Omnidroid v.10 location, then clear realm of Heroes' },
-    { name: 'Madam Mim', image: MadamMimPNG, voiceLine: MadamMimAudio, expansion: 'Bigger and Badder', difficulty: 'Medium', objective: 'Defeat Merlin in a wizard\'s duel' }
+    { name: 'Madam Mim', image: MadamMimPNG, voiceLine: MadamMimAudio, expansion: 'Bigger and Badder', difficulty: 'Medium', objective: "Defeat Merlin in a wizard's duel" }
   ],
   'Filled with Fright': [
     { name: 'Oogie Boogie', image: OogiePNG, voiceLine: OogieAudio, expansion: 'Filled with Fright', difficulty: 'Hard', objective: 'Convince Jack to return to Halloween Town and defeat him' }
@@ -100,12 +100,12 @@ const VillainsByExpansion = {
   ],
   'Treacherous Tides': [
     { name: 'Davy Jones', image: DavyJonesPNG, voiceLine: DavyJonesAudio, expansion: 'Treacherous Tides', difficulty: 'Medium', objective: 'Collect five treasure tokens' },
-    { name: 'Tamatoa', image: TamatoaPNG, voiceLine: TamatoaAudio, expansion: 'Treacherous Tides', difficulty: 'Medium', objective: 'Have Heart of Te Fiti and Maui\'s Hook at Tamatoa\'s Lair' }
+    { name: 'Tamatoa', image: TamatoaPNG, voiceLine: TamatoaAudio, expansion: 'Treacherous Tides', difficulty: 'Medium', objective: "Have Heart of Te Fiti and Maui's Hook at Tamatoa's Lair" }
   ],
   'Introduction to Evil': [
     { name: 'Maleficent (Intro)', image: MalefPNG, voiceLine: MalefAudio, expansion: 'Introduction to Evil', difficulty: 'Easy', objective: 'Have a Curse at each location in your realm' },
     { name: 'Captain Hook (Intro)', image: CapHookPNG, voiceLine: CapHookAudio, expansion: 'Introduction to Evil', difficulty: 'Medium', objective: 'Defeat Peter Pan at the Jolly Roger' },
-    { name: 'Ursula (Intro)', image: UrsulaPNG, voiceLine: UrsulaAudio, expansion: 'Introduction to Evil', difficulty: 'Hard', objective: 'Have the Trident and the Crown at Ursula\'s Lair' },
+    { name: 'Ursula (Intro)', image: UrsulaPNG, voiceLine: UrsulaAudio, expansion: 'Introduction to Evil', difficulty: 'Hard', objective: "Have the Trident and the Crown at Ursula's Lair" },
     { name: 'Prince John (Intro)', image: PrinceJohnPNG, voiceLine: PrinceJohnAudio, expansion: 'Introduction to Evil', difficulty: 'Easy', objective: 'Accumulate 20 power and have Robin Hood at The Jail' }
   ],
   'Unstoppable': [
@@ -122,11 +122,23 @@ const getAllVillains = () => {
 };
 
 const VillanousCharacters = getAllVillains();
+
+// Fisher-Yates shuffle — unbiased, uniform random permutation
+function fisherYatesShuffle(array) {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
   class VillanousCharacterSelector extends React.Component {
     constructor(props) {
       super(props);
       this.audioRef = React.createRef();
       this.spinInterval = null;
+      this.pendingTimeouts = [];
       this.state = {
         currentCharacter: VillanousCharacters[0],
         selectedExpansions: Object.keys(VillainsByExpansion),
@@ -139,7 +151,9 @@ const VillanousCharacters = getAllVillains();
         playerCount: 1, // 1-6 players
         selectedMultiVillains: [], // Array of selected villains for multi-player
         showGameSettings: true, // Collapsible game settings - expanded by default
-        showFilters: true // Collapsible filters - expanded by default
+        showFilters: true, // Collapsible filters - expanded by default
+        villainHistory: [], // Session history of selected villains
+        showHistory: true // Collapsible history panel
       };
       this.handleClick = this.handleClick.bind(this);
       this.toggleExpansion = this.toggleExpansion.bind(this);
@@ -154,24 +168,34 @@ const VillanousCharacters = getAllVillains();
       this.selectMultipleVillains = this.selectMultipleVillains.bind(this);
       this.toggleGameSettings = this.toggleGameSettings.bind(this);
       this.toggleFilters = this.toggleFilters.bind(this);
+      this.clearHistory = this.clearHistory.bind(this);
+      this.toggleHistory = this.toggleHistory.bind(this);
     }
 
     componentWillUnmount() {
       if (this.spinInterval) {
-        clearInterval(this.spinInterval);
+        clearTimeout(this.spinInterval);
       }
+      this.pendingTimeouts.forEach(id => clearTimeout(id));
+    }
+
+    scheduleTimeout(fn, delay) {
+      const id = setTimeout(() => {
+        this.pendingTimeouts = this.pendingTimeouts.filter(t => t !== id);
+        fn();
+      }, delay);
+      this.pendingTimeouts.push(id);
+      return id;
     }
 
     getAvailableVillains() {
       const { filterMode, selectedExpansions, selectedVillains } = this.state;
 
       if (filterMode === 'expansion') {
-        // Filter by selected expansions
         return VillanousCharacters.filter(villain =>
           selectedExpansions.includes(villain.expansion)
         );
       } else {
-        // Filter by selected individual villains
         return VillanousCharacters.filter(villain =>
           selectedVillains.includes(villain.name)
         );
@@ -187,16 +211,13 @@ const VillanousCharacters = getAllVillains();
         return;
       }
 
-      // Don't allow clicking during spin
       if (this.state.isSpinning) {
         return;
       }
 
-      // Multi-player mode: select multiple villains
       if (playerCount > 1) {
         this.selectMultipleVillains(availableVillains, playerCount);
       } else {
-        // Single player mode
         const randomIndex = Math.floor(Math.random() * availableVillains.length);
         const randomCharacter = availableVillains[randomIndex];
         this.spinToVillain(availableVillains, randomCharacter);
@@ -204,41 +225,26 @@ const VillanousCharacters = getAllVillains();
     }
 
     spinToVillain(availableVillains, finalCharacter) {
-      // Get speed multiplier
       const { animationSpeed } = this.state;
-      const speedMultipliers = {
-        fast: 0.5,    // 2x faster
-        normal: 1,    // normal speed
-        slow: 2       // 2x slower
-      };
+      const speedMultipliers = { fast: 0.5, normal: 1, slow: 2 };
       const speedMult = speedMultipliers[animationSpeed] || 1;
 
-      // Create a reel with a fixed number of spins (15-18) for consistent animation
-      const fixedSpinCount = 15 + Math.floor(Math.random() * 4); // 15-18 spins
+      const fixedSpinCount = 15 + Math.floor(Math.random() * 4);
       const reelVillains = [];
 
-      // Fill the reel with random villains from available pool
       for (let i = 0; i < fixedSpinCount; i++) {
         const randomVillain = availableVillains[Math.floor(Math.random() * availableVillains.length)];
         reelVillains.push(randomVillain);
       }
 
-      // Make sure the final villain is at the end
       reelVillains[fixedSpinCount - 1] = finalCharacter;
 
-      console.log('Spinning through', fixedSpinCount, 'slots');
-      console.log('Final villain:', finalCharacter.name);
-
-      this.setState({
-        isSpinning: true,
-        reelVillains: reelVillains,
-        reelOffset: 0
-      });
+      this.setState({ isSpinning: true, reelVillains: reelVillains, reelOffset: 0 });
 
       let currentOffset = 0;
       let spinCount = 0;
       const totalSpins = fixedSpinCount - 1;
-      let currentDelay = 30 * speedMult; // Starting delay in ms
+      let currentDelay = 30 * speedMult;
 
       const spin = () => {
         spinCount++;
@@ -249,25 +255,25 @@ const VillanousCharacters = getAllVillains();
           currentCharacter: reelVillains[currentOffset]
         });
 
-        // Calculate progressive delay (slow down effect)
         const progress = spinCount / totalSpins;
-        currentDelay = (30 + (progress * progress * progress * 500)) * speedMult; // Cubic slowdown
+        currentDelay = (30 + (progress * progress * progress * 500)) * speedMult;
 
         if (spinCount < totalSpins) {
-          // Continue spinning
           this.spinInterval = setTimeout(spin, currentDelay);
         } else {
-          // Final reveal
-          setTimeout(() => {
-            this.setState({
-              isSpinning: false
-            });
+          this.scheduleTimeout(() => {
+            this.setState(prevState => ({
+              isSpinning: false,
+              villainHistory: [
+                { villain: finalCharacter, timestamp: new Date(), players: 1 },
+                ...prevState.villainHistory
+              ]
+            }));
 
-            // Play audio after animation completes
-            setTimeout(() => {
+            this.scheduleTimeout(() => {
               if (this.audioRef.current && finalCharacter.voiceLine) {
                 this.audioRef.current.load();
-                this.audioRef.current.play().catch(err => console.log('Audio play failed:', err));
+                this.audioRef.current.play().catch(() => {});
               }
             }, 100);
           }, 300 * speedMult);
@@ -285,17 +291,20 @@ const VillanousCharacters = getAllVillains();
       const { reelVillains } = this.state;
       if (reelVillains.length > 0) {
         const finalVillain = reelVillains[reelVillains.length - 1];
-        this.setState({
+        this.setState(prevState => ({
           isSpinning: false,
           currentCharacter: finalVillain,
-          reelOffset: reelVillains.length - 1
-        });
+          reelOffset: reelVillains.length - 1,
+          villainHistory: [
+            { villain: finalVillain, timestamp: new Date(), players: 1 },
+            ...prevState.villainHistory
+          ]
+        }));
 
-        // Play audio
-        setTimeout(() => {
+        this.scheduleTimeout(() => {
           if (this.audioRef.current && finalVillain.voiceLine) {
             this.audioRef.current.load();
-            this.audioRef.current.play().catch(err => console.log('Audio play failed:', err));
+            this.audioRef.current.play().catch(() => {});
           }
         }, 100);
       }
@@ -306,10 +315,7 @@ const VillanousCharacters = getAllVillains();
     }
 
     setPlayerCount(count) {
-      this.setState({
-        playerCount: count,
-        selectedMultiVillains: [] // Reset multi-villain selection
-      });
+      this.setState({ playerCount: count, selectedMultiVillains: [] });
     }
 
     selectMultipleVillains(availableVillains, count) {
@@ -318,20 +324,22 @@ const VillanousCharacters = getAllVillains();
         return;
       }
 
-      // Shuffle and select unique villains
-      const shuffled = [...availableVillains].sort(() => Math.random() - 0.5);
-      const selected = shuffled.slice(0, count);
+      // Fisher-Yates shuffle for unbiased random selection
+      const selected = fisherYatesShuffle(availableVillains).slice(0, count);
 
-      this.setState({
+      this.setState(prevState => ({
         selectedMultiVillains: selected,
-        currentCharacter: selected[0] // Show first villain in main display
-      });
+        currentCharacter: selected[0],
+        villainHistory: [
+          { villains: selected, timestamp: new Date(), players: count },
+          ...prevState.villainHistory
+        ]
+      }));
 
-      // Play first villain's audio
-      setTimeout(() => {
+      this.scheduleTimeout(() => {
         if (this.audioRef.current && selected[0].voiceLine) {
           this.audioRef.current.load();
-          this.audioRef.current.play().catch(err => console.log('Audio play failed:', err));
+          this.audioRef.current.play().catch(() => {});
         }
       }, 100);
     }
@@ -365,31 +373,35 @@ const VillanousCharacters = getAllVillains();
     }
 
     selectAllExpansions() {
-      this.setState({
-        selectedExpansions: Object.keys(VillainsByExpansion)
-      });
+      this.setState({ selectedExpansions: Object.keys(VillainsByExpansion) });
     }
 
     selectAllVillains() {
-      this.setState({
-        selectedVillains: VillanousCharacters.map(v => v.name)
-      });
+      this.setState({ selectedVillains: VillanousCharacters.map(v => v.name) });
     }
 
     toggleGameSettings() {
-      this.setState(prevState => ({
-        showGameSettings: !prevState.showGameSettings
-      }));
+      this.setState(prevState => ({ showGameSettings: !prevState.showGameSettings }));
     }
 
     toggleFilters() {
-      this.setState(prevState => ({
-        showFilters: !prevState.showFilters
-      }));
+      this.setState(prevState => ({ showFilters: !prevState.showFilters }));
+    }
+
+    clearHistory() {
+      this.setState({ villainHistory: [] });
+    }
+
+    toggleHistory() {
+      this.setState(prevState => ({ showHistory: !prevState.showHistory }));
     }
 
     render() {
-      const { currentCharacter, filterMode, selectedExpansions, selectedVillains, isSpinning, animationSpeed, playerCount, selectedMultiVillains, showGameSettings, showFilters } = this.state;
+      const {
+        currentCharacter, filterMode, selectedExpansions, selectedVillains,
+        isSpinning, animationSpeed, playerCount, selectedMultiVillains,
+        showGameSettings, showFilters, villainHistory, showHistory
+      } = this.state;
       const availableCount = this.getAvailableVillains().length;
 
       return (
@@ -398,11 +410,7 @@ const VillanousCharacters = getAllVillains();
 
           {/* Game Settings Toggle */}
           <div className="section-toggle">
-            <Button
-              variant="outline-warning"
-              onClick={this.toggleGameSettings}
-              className="toggle-button"
-            >
+            <Button variant="outline-warning" onClick={this.toggleGameSettings} className="toggle-button">
               {showGameSettings ? '▼' : '▶'} Game Settings
             </Button>
           </div>
@@ -410,69 +418,50 @@ const VillanousCharacters = getAllVillains();
           {/* Game Settings */}
           {showGameSettings && (
             <div className="game-settings">
-            {/* Player Count */}
-            <div className="setting-group">
-              <label>Players:</label>
-              <div className="button-group">
-                {[1, 2, 3, 4, 5, 6].map(count => (
-                  <Button
-                    key={count}
-                    size="sm"
-                    variant={playerCount === count ? 'primary' : 'outline-primary'}
-                    onClick={() => this.setPlayerCount(count)}
-                    disabled={isSpinning}
-                  >
-                    {count}
-                  </Button>
-                ))}
+              <div className="setting-group">
+                <label>Players:</label>
+                <div className="button-group">
+                  {[1, 2, 3, 4, 5, 6].map(count => (
+                    <Button
+                      key={count}
+                      size="sm"
+                      variant={playerCount === count ? 'primary' : 'outline-primary'}
+                      onClick={() => this.setPlayerCount(count)}
+                      disabled={isSpinning}
+                    >
+                      {count}
+                    </Button>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            {/* Animation Speed */}
-            <div className="setting-group">
-              <label>Speed:</label>
-              <div className="button-group">
-                <Button
-                  size="sm"
-                  variant={animationSpeed === 'fast' ? 'primary' : 'outline-primary'}
-                  onClick={() => this.setAnimationSpeed('fast')}
-                  disabled={isSpinning}
-                >
-                  Fast
-                </Button>
-                <Button
-                  size="sm"
-                  variant={animationSpeed === 'normal' ? 'primary' : 'outline-primary'}
-                  onClick={() => this.setAnimationSpeed('normal')}
-                  disabled={isSpinning}
-                >
-                  Normal
-                </Button>
-                <Button
-                  size="sm"
-                  variant={animationSpeed === 'slow' ? 'primary' : 'outline-primary'}
-                  onClick={() => this.setAnimationSpeed('slow')}
-                  disabled={isSpinning}
-                >
-                  Slow
-                </Button>
+              <div className="setting-group">
+                <label>Speed:</label>
+                <div className="button-group">
+                  {['fast', 'normal', 'slow'].map(speed => (
+                    <Button
+                      key={speed}
+                      size="sm"
+                      variant={animationSpeed === speed ? 'primary' : 'outline-primary'}
+                      onClick={() => this.setAnimationSpeed(speed)}
+                      disabled={isSpinning}
+                    >
+                      {speed.charAt(0).toUpperCase() + speed.slice(1)}
+                    </Button>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
           )}
 
           {/* Filters Toggle */}
           <div className="section-toggle">
-            <Button
-              variant="outline-warning"
-              onClick={this.toggleFilters}
-              className="toggle-button"
-            >
+            <Button variant="outline-warning" onClick={this.toggleFilters} className="toggle-button">
               {showFilters ? '▼' : '▶'} Filters
             </Button>
           </div>
 
-          {/* Filter Mode Toggle */}
+          {/* Filter Mode Toggle + Controls */}
           {showFilters && (
             <>
               <div className="filter-mode-toggle">
@@ -485,58 +474,51 @@ const VillanousCharacters = getAllVillains();
                 </Button>
               </div>
 
-              {/* Filter Controls */}
               <div className="filter-controls">
-            {filterMode === 'expansion' ? (
-              <div className="expansion-filters">
-                <div className="filter-header">
-                  <h3>Select Expansions:</h3>
-                  <Button size="sm" onClick={this.selectAllExpansions}>Select All</Button>
-                </div>
-                <div className="filter-grid">
-                  {Object.keys(VillainsByExpansion).map(expansion => {
-                    const villainCount = VillainsByExpansion[expansion].length;
-
-                    return (
-                      <label key={expansion} className="filter-item">
-                        <input
-                          type="checkbox"
-                          checked={selectedExpansions.includes(expansion)}
-                          onChange={() => this.toggleExpansion(expansion)}
-                        />
-                        <span>
-                          {expansion} ({villainCount})
-                        </span>
-                      </label>
-                    );
-                  })}
-                </div>
+                {filterMode === 'expansion' ? (
+                  <div className="expansion-filters">
+                    <div className="filter-header">
+                      <h3>Select Expansions:</h3>
+                      <Button size="sm" onClick={this.selectAllExpansions}>Select All</Button>
+                    </div>
+                    <div className="filter-grid">
+                      {Object.keys(VillainsByExpansion).map(expansion => (
+                        <label key={expansion} className="filter-item">
+                          <input
+                            type="checkbox"
+                            checked={selectedExpansions.includes(expansion)}
+                            onChange={() => this.toggleExpansion(expansion)}
+                          />
+                          <span>{expansion} ({VillainsByExpansion[expansion].length})</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="villain-filters">
+                    <div className="filter-header">
+                      <h3>Select Villains:</h3>
+                      <Button size="sm" onClick={this.selectAllVillains}>Select All</Button>
+                    </div>
+                    <div className="filter-grid">
+                      {VillanousCharacters.map(villain => (
+                        <label key={villain.name} className="filter-item">
+                          <input
+                            type="checkbox"
+                            checked={selectedVillains.includes(villain.name)}
+                            onChange={() => this.toggleVillain(villain.name)}
+                          />
+                          <span>{villain.name}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
-            ) : (
-              <div className="villain-filters">
-                <div className="filter-header">
-                  <h3>Select Villains:</h3>
-                  <Button size="sm" onClick={this.selectAllVillains}>Select All</Button>
-                </div>
-                <div className="filter-grid">
-                  {VillanousCharacters.map(villain => (
-                    <label key={villain.name} className="filter-item">
-                      <input
-                        type="checkbox"
-                        checked={selectedVillains.includes(villain.name)}
-                        onChange={() => this.toggleVillain(villain.name)}
-                      />
-                      <span>{villain.name}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
             </>
           )}
 
-          {/* Current Character Display - Only show in single player mode */}
+          {/* Current Character Display */}
           {(playerCount === 1 || selectedMultiVillains.length === 0) && (
             <div className="character-display-wrapper">
               <div className={`character-display ${isSpinning ? 'spinning' : ''}`}>
@@ -551,11 +533,7 @@ const VillanousCharacters = getAllVillains();
                     >
                       {this.state.reelVillains.map((villain, index) => (
                         <div key={index} className="reel-item">
-                          <Image
-                            src={villain.image}
-                            alt={villain.name}
-                            className="villain-image reel-villain"
-                          />
+                          <Image src={villain.image} alt={villain.name} className="villain-image reel-villain" />
                           <h2>{villain.name}</h2>
                           <p className="expansion-name">{villain.expansion}</p>
                         </div>
@@ -565,15 +543,9 @@ const VillanousCharacters = getAllVillains();
                 ) : (
                   currentCharacter.image ? (
                     <>
-                      <Image
-                        src={currentCharacter.image}
-                        alt={currentCharacter.name}
-                        className="villain-image"
-                      />
+                      <Image src={currentCharacter.image} alt={currentCharacter.name} className="villain-image" />
                       <h2>{currentCharacter.name}</h2>
                       <p className="expansion-name">{currentCharacter.expansion}</p>
-
-                      {/* Villain Info */}
                       {currentCharacter.difficulty && (
                         <div className="villain-info">
                           <div className={`difficulty-badge difficulty-${currentCharacter.difficulty.toLowerCase().replace(' ', '-')}`}>
@@ -598,7 +570,6 @@ const VillanousCharacters = getAllVillains();
                   )
                 )}
               </div>
-              {/* Always render audio element */}
               {currentCharacter.voiceLine && (
                 <audio src={currentCharacter.voiceLine} ref={this.audioRef} style={{display: 'none'}}/>
               )}
@@ -616,11 +587,7 @@ const VillanousCharacters = getAllVillains();
                 {isSpinning ? 'Spinning...' : (playerCount > 1 ? `Choose ${playerCount} Villains!` : 'Choose a Villain!')}
               </Button>
               {isSpinning && playerCount === 1 && (
-                <Button
-                  className="skip-button"
-                  onClick={this.skipAnimation}
-                  variant="outline-light"
-                >
+                <Button className="skip-button" onClick={this.skipAnimation} variant="outline-light">
                   Skip
                 </Button>
               )}
@@ -640,8 +607,6 @@ const VillanousCharacters = getAllVillains();
                     <Image src={villain.image} alt={villain.name} className="multi-villain-image" />
                     <h4>{villain.name}</h4>
                     <p className="expansion-name">{villain.expansion}</p>
-
-                    {/* Villain Info */}
                     {villain.difficulty && (
                       <div className="villain-info">
                         <div className={`difficulty-badge difficulty-${villain.difficulty.toLowerCase().replace(' ', '-')}`}>
@@ -657,6 +622,57 @@ const VillanousCharacters = getAllVillains();
                   </div>
                 ))}
               </div>
+            </div>
+          )}
+
+          {/* Session History */}
+          {villainHistory.length > 0 && (
+            <div className="history-section">
+              <div className="section-toggle history-toggle">
+                <Button variant="outline-warning" onClick={this.toggleHistory} className="toggle-button">
+                  {showHistory ? '▼' : '▶'} Session History ({villainHistory.length})
+                </Button>
+                <Button variant="outline-danger" size="sm" onClick={this.clearHistory} className="clear-history-button">
+                  Clear
+                </Button>
+              </div>
+
+              {showHistory && (
+                <div className="history-list">
+                  {villainHistory.map((entry, index) => (
+                    <div key={index} className="history-entry">
+                      {entry.players === 1 ? (
+                        <div className="history-single">
+                          <Image src={entry.villain.image} alt={entry.villain.name} className="history-image" />
+                          <div className="history-info">
+                            <span className="history-name">{entry.villain.name}</span>
+                            <span className="history-expansion">{entry.villain.expansion}</span>
+                            <span className={`history-difficulty difficulty-${entry.villain.difficulty.toLowerCase().replace(' ', '-')}`}>
+                              {entry.villain.difficulty}
+                            </span>
+                          </div>
+                          <span className="history-round">Roll {villainHistory.length - index}</span>
+                        </div>
+                      ) : (
+                        <div className="history-multi">
+                          <div className="history-multi-header">
+                            <span className="history-round">Roll {villainHistory.length - index}</span>
+                            <span className="history-player-count">{entry.players} players</span>
+                          </div>
+                          <div className="history-multi-villains">
+                            {entry.villains.map((v, i) => (
+                              <div key={i} className="history-multi-item">
+                                <Image src={v.image} alt={v.name} className="history-image" />
+                                <span className="history-name">{v.name}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 

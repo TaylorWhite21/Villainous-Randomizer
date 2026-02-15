@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main, master]
+  push:
+    branches: [main, master]
+
+jobs:
+  test-and-build:
+    name: Test and Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test -- --watchAll=false --ci --coverage
+        env:
+          CI: true
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-report
+          path: coverage/
+          retention-days: 7
+
+      - name: Build production bundle
+        run: npm run build
+        env:
+          # CI=false prevents CRA from treating ESLint warnings as errors.
+          # Once all warnings are resolved (run /review to find them),
+          # change this to CI=true for stricter enforcement.
+          CI: false
+
+      - name: Verify build output
+        run: |
+          echo "=== Build directory ==="
+          ls -la build/
+          echo "=== Static JS chunks ==="
+          ls -lh build/static/js/
+          echo "=== Media asset count ==="
+          echo "Files in build/static/media/: $(ls build/static/media/ | wc -l)"
+          echo "=== Total build size ==="
+          du -sh build/

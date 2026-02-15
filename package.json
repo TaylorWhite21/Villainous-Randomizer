@@ -24,6 +24,7 @@
       "react-app/jest"
     ]
   },
+  "homepage": "https://TaylorWhite21.github.io/Villainous-Randomizer",
   "browserslist": {
     "production": [
       ">0.2%",
